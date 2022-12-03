@@ -1,0 +1,29 @@
+*{
+    -ms-overflow-style: none;
+    font-family: 'AZN';
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+h1, h2, h3, h4, h5, h6, p{
+    font-family: 'Dishesz1';
+}
+
+@font-face{
+    font-family: 'Dishesz-regular';
+    src: url(../fonts/Azn.otf) format('opentype');
+    font-weight: 100;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'Dishesz-light';
+    src: url(../fonts/Azn.otf) format('opentype');
+    font-weight: 40;
+    font-display: swap;
+    font-style: normal;
+}

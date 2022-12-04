@@ -8,7 +8,7 @@
  */
 
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { BrowserRouter } from 'react-router-dom'
 
@@ -22,9 +22,36 @@ import UserAccount from '../session/UserAccount'
 
 
 const MainView = () => { 
+    /**
+     * @purpose MainView class sits at the top of the webapp
+     *          It's handle the user authentication status and wraps neccessary components 
+     *          based on the the user auth status
+     * @returns 
+     *          Returns the Main UI components that define the webapp
+     */
 
     const userAccount = new UserAccount() 
-    const authStatus = userAccount.isAuthenticated() 
+
+    const [ authStatus, setAuthStatus ] = useState(false)
+
+    const _loadUserAuthStatus = () => { 
+        const checkAuth = setInterval(() => { 
+                const status = userAccount.isAuthenticated() 
+                if(status){ 
+                    return setAuthStatus(true)
+                }
+                return setAuthStatus(false)
+
+        }, 10)
+
+        return () => clearInterval(checkAuth)
+    }
+
+    useEffect(() => { 
+
+        _loadUserAuthStatus()
+
+    }, [])
     
     return ( 
         <BrowserRouter>
@@ -35,7 +62,7 @@ const MainView = () => {
                 maxWidth="100%">
 
                     <Stack 
-                        mt={10}
+                        mt={{xs: 5, sm: 5, md: 8}}
                         direction="column"
                         spacing={2} 
                         justifyContent="center"

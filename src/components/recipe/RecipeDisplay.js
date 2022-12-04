@@ -9,7 +9,7 @@
  */
 
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import {Box, Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
@@ -17,7 +17,8 @@ import { RegularChip, RegularText } from '../texts/GenericTexts'
 import ProfileCard from './ProfileCard'
 import { ProfileLink } from '../buttons/LinkButtons'
 import { PhotoGallery } from './RecipePhoto'
-import { GenericButton } from '../buttons/MenuButtons'
+import { GenericButton, ViewMoreButton } from '../buttons/MenuButtons'
+import RecipeDetails from './RecipeDetail'
 
 
 
@@ -36,14 +37,22 @@ const RecipeDisplay = ({ recipeData }) => {
 
     console.log('Recipe Data', recipeData)
 
+    const [ detailStatus, setDetailStatus ] = useState(false)
+
     const trunateRecipeDescription = () => { 
         
         if(recipeData.recipe_description){ 
             let description = recipeData.recipe_description
-            let trunateWords = description.split(' ').slice(0, 30).join(' ')
+            let trunateWords = description.split(' ').slice(0, 50).join(' ')
             return trunateWords + '.....'
         }
     }
+
+    const recipeDetailHandler = () => { 
+        setDetailStatus(!detailStatus)
+    }
+
+    
 
 
     if(recipeData){
@@ -51,14 +60,14 @@ const RecipeDisplay = ({ recipeData }) => {
             <Box 
                 justifyContent="center"
                 alignItems="center"
-                display="flex">
+                display="flex"
+                maxWidth="100%">
 
                         <SmallPanel
                             shadow={5}>
                                 
 
                                 <Stack 
-                                    mt={-3}
                                     ml={{ sm: 0, md: 4}}
                                     direction="column"
                                     spacing={2}
@@ -70,10 +79,10 @@ const RecipeDisplay = ({ recipeData }) => {
                                         direction="row"
                                         spacing={2}
                                         justifyContent="flex-start"
-                                        alignItems="flex-start">
+                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
                                         <ProfileCard
-                                            media={"https://www.w3schools.com/howto/img_avatar2.png"}/>
+                                            media={recipeData.profile_pic}/>
 
                                         <ProfileLink
                                             username={recipeData.author}/>
@@ -82,28 +91,41 @@ const RecipeDisplay = ({ recipeData }) => {
 
                                     <Stack 
                                         direction="column"
+                                        spacing={2}
+                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
+
+                                            <PhotoGallery
+                                                photoList={recipeData.photos}/>
+                                    </Stack>
+
+                                    <Stack 
+                                        direction="column"
                                         spacing={1}
                                         display="flex"
-                                        justifyContent="flex-start"
-                                        alignItems="flex-start">
+                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
                                             
 
                                             <Stack 
-                                                direction="row"
+                                                direction={{xs: "column", sm: "column", md: "row"}}
                                                 spacing={2}
                                                 justifyContent="center"
                                                 alignItems="center">
 
-                                            <RegularText
-                                                size="12px"
-                                                text={recipeData.recipe_name}/>
+                                                <RegularText
+                                                    size="15px"
+                                                    text={recipeData.recipe_name}/>
 
                                                 <RegularChip
-                                                    indicator="success"
-                                                    text={recipeData.category}/>
+                                                indicator="secondary"
+                                                text={recipeData.category}/>
 
+                                                
                                             </Stack>
+
+                                            
 
                                             <Stack 
                                                 direction="row"
@@ -137,33 +159,43 @@ const RecipeDisplay = ({ recipeData }) => {
 
                                             </Stack>
 
-                                            <RegularText
-                                                size="12px"
-                                                text={trunateRecipeDescription()}/>
+                                            <Stack 
+                                                direction={{xs: 'column', md:'row'}}
+                                                spacing={0}
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                maxWidth="80%"
+                                                sx={{
+                                                    overflowWrap: 'break-word',
+                                                    wordWrap: 'break-word',
+                                                }}>
+
+                                                <RegularText
+                                                    size="12px"
+                                                    text={trunateRecipeDescription()}/>
+
+                                                <ViewMoreButton
+                                                    onPress={recipeDetailHandler}
+                                                    text="View More"/>
+
+                                            </Stack>
+
+                                         
     
                                     </Stack>
 
-                                    <Stack 
-                                        direction="column"
-                                        spacing={2}
-                                        justifyContent="flex-start"
-                                        alignItems="flex-start">
-
-                                            <PhotoGallery
-                                                photoList={recipeData.photos}/>
-                                    </Stack>
+                                    
 
                                     <Stack 
                                         direction="row"
                                         spacing={1}
                                         display="flex"
-                                        justifyContent="flex-start"
-                                        alignItems="flex-start">
+                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
                                          
 
-                                            <GenericButton
-                                                text="View More"/>
+                                            
 
                                     </Stack>
 
@@ -171,6 +203,11 @@ const RecipeDisplay = ({ recipeData }) => {
                                 </Stack>
 
                         </SmallPanel>
+
+                    <RecipeDetails
+                        status={detailStatus}
+                        handler={recipeDetailHandler}
+                        data={recipeData}/>
 
             </Box>
         

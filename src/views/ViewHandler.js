@@ -1,4 +1,12 @@
 
+/**
+ * 
+ * @author Patrick Atta-Baah 
+ * @purpose ViewHandler.js maintain the routing system of the webapp
+ * 
+ */
+
+
 import React from 'react'
 
 import { Box } from '@mui/material'
@@ -8,6 +16,16 @@ import ExploreView from './explore_view/ExploreView'
 import LoginView from './login/LoginView'
 
 const ViewHandler = ({ isAuthenticated }) => { 
+
+    /**
+     * 
+     * @purpose ViewHandler class takes care of the routing system within the webapp,
+     *          it detects the user authentication status and allow access to certain routes
+     *
+     * @param isAuthenticated Boolean variable that indicates whether a user is authenticated or not
+     * 
+     * @returns Web UI based on authentication status
+     */
 
     if(!isAuthenticated){
 

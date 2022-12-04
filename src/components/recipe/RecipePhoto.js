@@ -11,7 +11,6 @@ import React from 'react'
 
 import { CardMedia } from '@mui/material'
 import Carousel from 'react-gallery-carousel'
-import { ImageList, ImageListItem } from '@mui/material'
 
 
 const RecipePhoto = ({ media }) => {
@@ -53,14 +52,15 @@ const PhotoGallery = ({ photoList }) => {
         return photoList
     }
 
-    console.log('Photo Updated', handlePhotos())
+    //console.log('Photo Updated', handlePhotos())
     return ( 
        <Carousel 
             images={handlePhotos()}
             style={{
                 objectFit: 'contain',
                 height: 300,
-                width: '95%'
+                width: '95%',
+                borderRadius: '10px'
             }}/>
     )
 }

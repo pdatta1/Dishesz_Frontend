@@ -30,7 +30,7 @@ const ExploreView = () => {
             maxWidth="100%">
 
                 <Stack
-                    direction="row"
+                    direction={{xs: "column", sm:"column", md: "row"}}
                     spacing={4}
                     display="flex">
 

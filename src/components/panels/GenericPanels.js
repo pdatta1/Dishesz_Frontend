@@ -66,7 +66,7 @@ const SmallPanel = ({ children, shadow }) => {
             <Paper 
                 elevation={shadow}
                 sx={{
-                    height: { sm: '100%', md: '55vh'}, 
+                    height: { sm: '100%', md: 'auto'}, 
                     width: {xs: '100%', sm: '100%', md: '80vh'},
                     justifyContent: 'center', 
                     alignItems: 'center'

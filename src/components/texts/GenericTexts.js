@@ -25,7 +25,34 @@ const RegularText = ({ text, variant, size }) => {
             fontSize={size}
             variant={variant}
             component="div"
-            fontFamily="Dishesz-regular">
+            fontFamily="Dishesz-regular"
+            sx={{
+                flexWrap: 'wrap', 
+                overflowWrap: 'break-word'
+            }}>
+                {text}
+        </Typography>
+    )
+}
+
+const RegularContent = ({ text, variant, size }) => { 
+    /**
+     * 
+     * @purpose RegularText consists of a simple text with a regular font weight
+     * @param text: typography output (eg. "this is an output")
+     * @param variant: variation of the text element (eg. <h1> <h2> etc)
+     * 
+     */
+    return ( 
+        <Typography
+            fontSize={size}
+            variant={variant}
+            component="div"
+            fontFamily="serif"
+            sx={{
+                flexWrap: 'wrap', 
+                overflowWrap: 'break-word'
+            }}>
                 {text}
         </Typography>
     )
@@ -50,4 +77,5 @@ const RegularChip = ({ text, indicator }) => {
 export { 
     RegularText, 
     RegularChip,
+    RegularContent,
 }

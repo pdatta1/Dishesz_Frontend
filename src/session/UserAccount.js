@@ -69,10 +69,13 @@ class UserAccount extends AuthInstance{
 
 
         isAuthenticated = () => { 
-            if(this.getLocalAccessToken()){ 
+
+            const token = this.getLocalAccessToken() 
+            if(token){ 
                 return true 
             }
-            return false
+            return false 
+            
         }
 
 

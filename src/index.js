@@ -8,8 +8,6 @@ import 'react-gallery-carousel/dist/index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
     <MainView />
-  </React.StrictMode>
 )
 

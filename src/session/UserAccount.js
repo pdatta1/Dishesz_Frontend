@@ -62,7 +62,7 @@ class UserAccount extends AuthInstance{
                 username: username,
                 email: emailAddress, 
                 password: password, 
-                passwordAgain: passwordAgain
+                password2: passwordAgain
             }
             return await this.authInstance.post('users/create_user/', requestData)
         }

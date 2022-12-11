@@ -9,7 +9,7 @@
 
 import React from 'react'
 
-import { CardMedia } from '@mui/material'
+import { Avatar } from '@mui/material'
 
 
 const ProfileCard = ({ media }) => {
@@ -19,18 +19,12 @@ const ProfileCard = ({ media }) => {
      * @returns CardMedia UI that displays the image file
      */
     return ( 
-        <CardMedia
-            sx={{
-                    height: '60px', 
-                    width: {xs: '60px', sm: '60px', md: '60px'}, 
-                    objectFit: 'contain',
-                    borderRadius: '50%'
-                }}
-            component="img"
+        <Avatar
+            
             src={media}
-            alt='WalletIcon'>
+            alt='Profile'>
 
-        </CardMedia>
+        </Avatar>
     )
 }
 

@@ -39,6 +39,7 @@ const ExploreFeeds = () => {
     const _loadExploreFeeds = async () => { 
 
         const feedData = await feedApi.getExploreFeeds() 
+
         if(feedData.data){ 
             updateFeedContainer(feedData.data)
         }

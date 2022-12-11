@@ -14,11 +14,11 @@ import React, { useState } from 'react'
 import {Box, Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
 import { RegularChip, RegularText } from '../texts/GenericTexts'
-import ProfileCard from './ProfileCard'
-import { ProfileLink } from '../buttons/LinkButtons'
+
 import { PhotoGallery } from './RecipePhoto'
 import { GenericButton, ViewMoreButton } from '../buttons/MenuButtons'
 import RecipeDetails from './RecipeDetail'
+import RecipeDisplayTower from './RecipeDisplayTower'
 
 
 
@@ -74,20 +74,9 @@ const RecipeDisplay = ({ recipeData }) => {
                                     justifyContent="center"
                                     display="flex">
 
-                                    <Stack 
-                                        mt={5}
-                                        direction="row"
-                                        spacing={2}
-                                        justifyContent="flex-start"
-                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
-
-                                        <ProfileCard
-                                            media={recipeData.profile_pic}/>
-
-                                        <ProfileLink
-                                            username={recipeData.author}/>
-
-                                    </Stack>
+                                   <RecipeDisplayTower
+                                        profile_pic={recipeData.profile_pic}
+                                        author={recipeData.author}/>
 
                                     <Stack 
                                         direction="column"

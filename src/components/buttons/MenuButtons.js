@@ -64,6 +64,31 @@ const GenericButton = ({ text, onPress, component, to, variant }) => {
     )
 }
 
+const SignupButton = ({ text, onPress, variant }) => { 
+    /**
+     * @purpose generic webapp button
+     * @param text: text to be display on button
+     * @param onPress: button click event handler
+     */
+
+    return ( 
+        <Button 
+            variant={variant}
+            onClick={onPress}
+            type="submit"
+            sx={{
+                fontSize: '15px',
+                width: '12rem',
+                borderRadius: '10px', 
+                fontFamily: 'Dishesz1'
+            }}>
+
+            {text}
+        </Button>
+
+    )
+}
+
 const ViewMoreButton = ({ text, onPress, component, to, variant }) => { 
     /**
      * @purpose generic webapp button for recipeDisplay
@@ -146,5 +171,6 @@ export {
     GenericLinkButton,
     ViewMoreButton,
     IngredientLinkButton,
+    SignupButton,
 }
 

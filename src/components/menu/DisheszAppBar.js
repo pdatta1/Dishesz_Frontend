@@ -53,6 +53,8 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                                     spacing={3}>
 
                                         <GenericLinkButton
+                                            component={Link}
+                                            to={"/signup"}
                                             text="Sign up"/>
 
                                         <GenericLinkButton

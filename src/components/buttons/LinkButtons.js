@@ -31,7 +31,7 @@ const ProfileLink = ({ username }) => {
         <Button 
             variant="text"
             sx={{
-                fontSize: '15px',
+                fontSize: '12px',
                 width: '1rem',
                 borderRadius: '10px', 
                 fontFamily: 'Dishesz1'

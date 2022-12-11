@@ -23,7 +23,7 @@ const ApproachView = () => {
             }}
             >
             <SmallPanel
-                shadow={2}>
+                shadow={0}>
                 <Stack 
                     mt={5}
                     direction="column"

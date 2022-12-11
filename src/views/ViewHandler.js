@@ -14,6 +14,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import ExploreView from './explore_view/ExploreView'
 import LoginView from './login/LoginView'
+import SignupView from './signup/SignupView'
 
 const ViewHandler = ({ isAuthenticated }) => { 
 
@@ -40,6 +41,7 @@ const ViewHandler = ({ isAuthenticated }) => {
                     <Routes>
                         <Route exact path="/" element={<ExploreView/>}/>
                         <Route path="/login" element={<LoginView/>}/>
+                        <Route path="/signup" element={<SignupView/>}/>
                     </Routes>
 
             </Box>

@@ -127,7 +127,7 @@ class AuthInstance{
         this.headers[header_type] = header_value
     }
 
-    removeAuthHeaders = ( header_type ) => { 
+    removeAuthHeaders = ( header_type) => { 
         /**
          * 
          * @purpose remove header from auth instance header

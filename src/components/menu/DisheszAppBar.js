@@ -14,6 +14,7 @@ import { Box, AppBar, Stack, Toolbar } from '@mui/material'
 import { RegularText } from '../texts/GenericTexts'
 import { MobileMenuButton, GenericLinkButton }from '../buttons/MenuButtons'
 import SearchBar from '../search/SearchBar'
+import { isMobile } from '../../utils/MobileUtils'
 
 const DisheszAppBar = ({ isAuthenticated }) => { 
 
@@ -89,26 +90,31 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                 position="fixed"
                 component="nav"
                 sx={{
-                    'backgroundColor': '#ffffff'
-                }}>
+                    'backgroundColor': '#0093E9',
+                    'backgroundImage': 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)'
+                    }}>
 
                     <Toolbar>
 
-                        <RegularText 
-                                variant="h4"
-                                text="Dishesz"
-                                color="#000"/>
+                            {!isMobile() && 
+                                <RegularText 
+                                    variant="h4"
+                                    text="Dishesz"
+                                    color="#ffffff"/>
+                            }
+
+                            <Box sx={{ flexGrow: { xs: 0, md: .35}}}></Box>
 
                             <Box 
                                 sx={{ 
-                                    display: { xs: 'none', sm: 'none', md: 'block' },
-                                    flexGrow: 0
+                                    display: { xs: 'block', sm: 'block', md: 'block' },
+                                    flexGrow: {xs: 1, md:  0}
                                     }}>
 
                                 <SearchBar/> 
                             </Box>
 
-                            <Box sx={{ flexGrow: 1}}></Box>
+                            <Box sx={{ flexGrow: { xs: 1, md: 0}}}></Box>
 
                             <Box 
                                 sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
@@ -122,7 +128,11 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                             </Box> 
 
                             <Box
-                                sx={{ display: {xs: 'block', md: 'none'}}}>
+                                sx={{ 
+                                    display: {xs: 'block', md: 'none'}, 
+                                    position: "absolute", 
+                                    right: -5
+                                    }}>
 
                                 <MobileMenuButton/>
                             </Box>

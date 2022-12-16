@@ -22,7 +22,7 @@ const RegularText = ({ text, variant, size, color }) => {
      */
 
     if(color === null || color == undefined){ 
-        color = "#ffffff"
+        color = "#000000"
     }
 
     return ( 

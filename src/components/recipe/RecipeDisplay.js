@@ -16,7 +16,7 @@ import { SmallPanel } from '../panels/GenericPanels'
 import { RegularChip, RegularText } from '../texts/GenericTexts'
 
 import { PhotoGallery } from './RecipePhoto'
-import { GenericButton, ViewMoreButton } from '../buttons/MenuButtons'
+import { ViewMoreButton } from '../buttons/MenuButtons'
 import RecipeDetails from './RecipeDetail'
 import RecipeDisplayTower from './RecipeDisplayTower'
 
@@ -35,7 +35,7 @@ const RecipeDisplay = ({ recipeData }) => {
      *            returns it 
      */
 
-    console.log('Recipe Data', recipeData)
+    //console.log('Recipe Data', recipeData)
 
     const [ detailStatus, setDetailStatus ] = useState(false)
 
@@ -61,6 +61,7 @@ const RecipeDisplay = ({ recipeData }) => {
                 justifyContent="center"
                 alignItems="center"
                 display="flex"
+                width="100%"
                 maxWidth="100%">
 
                         <SmallPanel

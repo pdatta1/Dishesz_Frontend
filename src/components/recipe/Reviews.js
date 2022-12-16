@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { Box, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
 import RecipeDisplayTower from './RecipeDisplayTower'
-import { RegularChip, RegularText } from '../texts/GenericTexts'
+import { RegularText } from '../texts/GenericTexts'
 import Ratings from './Ratings'
 
 
 const ReviewSection = ({ reviews }) => { 
 
     const isReviewsValid = () => { 
-        if(reviews && !reviews.length == 0){
+        if(reviews && !reviews.length === 0){
             return true 
         }
 

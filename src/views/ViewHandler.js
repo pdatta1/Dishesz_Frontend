@@ -58,6 +58,9 @@ const ViewHandler = ({ isAuthenticated }) => {
             alignItems="center"
             maxWidth="100%">
 
+                    <Routes>
+                        <Route exact path="/" element={<ExploreView/>}/>
+                    </Routes>
         </Box>
     )
 }

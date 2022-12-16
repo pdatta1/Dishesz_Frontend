@@ -3,10 +3,10 @@
 import React, { useState } from 'react'
 
 
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { TextField } from "@mui/material"
 
-import { GenericButton, SignupButton } from '../../components/buttons/MenuButtons'
+import { GenericButton, SubmitButton } from '../../components/buttons/MenuButtons'
 import {  AuthForm} from '../../components/panels/GenericPanels'
 import { RegularText } from '../../components/texts/GenericTexts'
 import { Link } from 'react-router-dom'
@@ -29,7 +29,7 @@ const SignupView = () => {
 
 
     const [ successCreated, setSuccessCreated ] = useState(false)
-    const [ errorCreating, setErrorCreating ] = useState(false)
+   // const [ errorCreating, setErrorCreating ] = useState(false)
 
     const [ helperText, updateHelperText ] = useState("")
 
@@ -130,7 +130,7 @@ const SignupView = () => {
                                         onChange={handlePasswordAgainInput}
                                         type="password"/>
 
-                                    <SignupButton
+                                    <SubmitButton
                                         text="Create Account"
                                         variant="contained"
                                         />

@@ -11,6 +11,8 @@ import React from 'react'
 import { IconButton, Button } from '@mui/material'
 
 import WidgetsIcon from '@mui/icons-material/Widgets'
+import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
 
 
 const MobileMenuButton = ({ onPress }) => { 
@@ -64,7 +66,62 @@ const GenericButton = ({ text, onPress, component, to, variant }) => {
     )
 }
 
-const SignupButton = ({ text, onPress, variant }) => { 
+
+const FollowButton = ({ text, onPress, variant }) => { 
+    /**
+     * @purpose generic webapp button
+     * @param text: text to be display on button
+     * @param onPress: button click event handler
+     */
+
+    return ( 
+        <Button 
+            variant={variant}
+            onClick={onPress}
+            endIcon={<GroupAddIcon/>}
+            sx={{
+                fontSize: '12px',
+                width: '7rem',
+                borderRadius: '10px', 
+                fontFamily: 'Dishesz1'
+            }}>
+
+            {text}
+        </Button>
+
+    )
+}
+
+const UnFollowButton = ({ text, onPress, variant }) => { 
+    /**
+     * @purpose generic webapp button
+     * @param text: text to be display on button
+     * @param onPress: button click event handler
+     */
+
+    return ( 
+        <Button 
+            variant={variant}
+            onClick={onPress}
+            endIcon={<GroupRemoveIcon/>}
+            sx={{
+                fontSize: '12px',
+                width: '7rem',
+                borderRadius: '10px', 
+                fontFamily: 'Dishesz1', 
+                bgcolor: '#FF3333', 
+                ":hover": {
+                    bgcolor: '#FF6666'
+                }
+            }}>
+
+            {text}
+        </Button>
+
+    )
+}
+
+const SubmitButton = ({ text, onPress, variant }) => { 
     /**
      * @purpose generic webapp button
      * @param text: text to be display on button
@@ -103,8 +160,8 @@ const ViewMoreButton = ({ text, onPress, component, to, variant }) => {
             component={component}
             to={to}
             sx={{
-                fontSize: '10px',
-                width: '5rem',
+                fontSize: '12px',
+                width: '7rem',
                 borderRadius: '10px', 
                 fontFamily: 'Dishesz1'
             }}>
@@ -171,6 +228,8 @@ export {
     GenericLinkButton,
     ViewMoreButton,
     IngredientLinkButton,
-    SignupButton,
+    SubmitButton,
+    FollowButton,
+    UnFollowButton,
 }
 

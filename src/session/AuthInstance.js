@@ -61,7 +61,7 @@ class AuthInstance{
                 if(error.response.status === 401 && !originalConfig._retry){
                     originalConfig._retry = true 
                     try{
-                        this.refreshingToken = this.refreshingToken ? this.refreshingToken : this.refreshToken() 
+                        this.refreshingToken = this.refreshingToken ? this.refreshingToken : this.refreshApiToken() 
                         const rs = await this.refreshingToken
                         if(rs.data.access){
                             const { access } = rs.data 
@@ -138,7 +138,7 @@ class AuthInstance{
         }
     }
 
-    refreshToken = async () => { 
+    refreshApiToken = async () => { 
         /***
          * @purpose refresh user token from backend
          * @param None 

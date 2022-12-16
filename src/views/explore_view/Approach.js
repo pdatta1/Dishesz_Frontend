@@ -44,7 +44,9 @@ const ApproachView = () => {
                         
                         <GenericButton
                             text="Sign up"
-                            variant={"contained"}/>
+                            variant={"contained"}
+                            component={Link}
+                            to={'/signup'}/>
 
                     </Stack>
 

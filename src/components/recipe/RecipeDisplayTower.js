@@ -14,7 +14,7 @@ const RecipeDisplayTower = ({ profile_pic, author}) => {
         <Stack 
             mt={5}
             direction="row"
-            spacing={0}
+            spacing={2}
             justifyContent="flex-start"
             alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 

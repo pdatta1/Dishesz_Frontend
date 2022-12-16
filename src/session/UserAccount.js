@@ -207,6 +207,23 @@ class UserAccount extends AuthInstance{
 
 
         /**
+         *
+         * People To Follow
+         */
+
+
+        listPeopleToFollow = async () => { 
+            /**
+             * @purpose get all suggested people to follow from api
+             * @returns response data from auth instance
+             * @param None 
+             * 
+             */
+            return await this.authInstance.get('users/people_to_follow/')
+        }
+
+
+        /**
          * 
          * Tokens 
          * 

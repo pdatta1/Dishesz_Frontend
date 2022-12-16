@@ -11,12 +11,22 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Skeleton, Chip, IconButton } from '@mui/material'
 
 
 import { FeedPanel } from '../../components/panels/GenericPanels'
 import ExploreFeedApi from '../../session/ExploreFeedApi'
 import RecipeDisplay from '../../components/recipe/RecipeDisplay'
+
+import InFiniteScroll from 'react-infinite-scroll-component'
+
+import { isMobile } from '../../utils/MobileUtils'
+
+
+import GetAppIcon from '@mui/icons-material/GetApp'
+import RefreshIcon from '@mui/icons-material/Refresh'
+
+
 
 const ExploreFeeds = () => { 
     /**
@@ -32,24 +42,70 @@ const ExploreFeeds = () => {
      *              Loads the @_loadExploreFeed method before Webapp UI updates
      */
 
-    const feedApi = new ExploreFeedApi() 
-
     const [ feedContainer, updateFeedContainer ] = useState([])
+    
+    const [ feedCount, updateFeedCount ] = useState(1)
+    const [ feedLoading, setFeedLoading ] = useState(false)
+
+
+    //console.log('Feed Container', feedContainer)
+    const _refreshExploreFeeds = async () => { 
+
+        const feedApi = new ExploreFeedApi() 
+
+
+        setFeedLoading(true)
+        const feedData = await feedApi.getExploreFeeds(feedCount)
+
+        if(feedData){
+            updateFeedContainer(feedData)
+            updateFeedCount((prev) => prev += 1)
+            setFeedLoading(false)
+        }
+
+    }
 
     const _loadExploreFeeds = async () => { 
 
-        const feedData = await feedApi.getExploreFeeds() 
+        const feedApi = new ExploreFeedApi() 
 
-        if(feedData.data){ 
-            updateFeedContainer(feedData.data)
+
+        setFeedLoading(true)
+        const feedData = await feedApi.getExploreFeeds(feedCount)
+
+        if(feedData){
+            updateFeedContainer([...feedContainer, ...feedData])
+            updateFeedCount((prev) => prev += 1)
+            setFeedLoading(false)
         }
+
     }
 
-    //console.log('Feed Container', feedContainer)
+
+    const feedLoader = () => { 
+        return ( 
+            <div>
+            {[1,2,3,4,5].map((index) => ( 
+                <Skeleton 
+                    key={index}
+                    variant="rectangular"  
+                    width='100%'
+                    height='20rem'/>
+            ))}
+            </div>
+        )
+    }
+
+
+    console.log(feedContainer) 
+    //console.log('Feed Count', feedCount)
+
+    
 
     useEffect(() => {
+        
+            _loadExploreFeeds() 
 
-        _loadExploreFeeds() 
 
     }, [])
 
@@ -58,32 +114,62 @@ const ExploreFeeds = () => {
             justifyContent="center" 
             alignItems="center"
             maxWidth="100%"
-            display="flex">
+            >
 
+            <Stack 
+                direction="column"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+                >
+
+
+
+                {isMobile() && 
+                    <Chip
+                        variant="outlined"
+                        label="Pull Down to Refresh"
+                        icon={<GetAppIcon/>}
+                        />
+                }
+                
                 <FeedPanel
                     shadow={0}>
 
-                    <Stack 
-                        direction="column"
-                        spacing={2}
-                        justifyContent="center"
-                        alignItems="center"
-                        display="flex"
-                        sx={{
-                            overflow: 'auto',
-                        }}>
+                    <InFiniteScroll
+                        dataLength={feedContainer.length}
+                        next={_loadExploreFeeds}
+                        hasMore={true}
+                        loader={feedLoader()}
+                        refreshFunction={_refreshExploreFeeds}
+                        pullDownToRefresh
+                        pullDownToRefreshThreshold={50}
+                        height='85vh'>
 
-                            {feedContainer.map((recipe, key) => (
+                            <Stack 
+                                direction="column"
+                                spacing={2}
+                                justifyContent="center"
+                                alignItems="center"
+                                
+                                sx={{
+                                    overflow: 'auto',
+                                }}>
 
-                                <RecipeDisplay
-                                    key={key}
-                                    recipeData={recipe}/>
-                            ))}
+                                    
+                                    {feedContainer.map((recipe, key) => (
 
-                    </Stack>
+                                        <RecipeDisplay
+                                            key={key}
+                                            recipeData={recipe}/>
+                                    ))}
+                            </Stack>
+
+                    </InFiniteScroll> 
 
                 </FeedPanel>
-                
+            </Stack>
+
         </Box>
     )
 }

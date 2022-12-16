@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-import { Stack, Box } from '@mui/material'
+import { Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
 import { RegularText, RegularChip } from '../texts/GenericTexts'
 import { IngredientLinkButton } from '../buttons/MenuButtons'

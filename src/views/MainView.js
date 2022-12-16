@@ -30,28 +30,29 @@ const MainView = () => {
      *          Returns the Main UI components that define the webapp
      */
 
-    const userAccount = new UserAccount() 
 
     const [ authStatus, setAuthStatus ] = useState(false)
 
-    const _loadUserAuthStatus = () => { 
-        const checkAuth = setInterval(() => { 
-                const status = userAccount.isAuthenticated() 
-                if(status){ 
-                    return setAuthStatus(true)
-                }
-                return setAuthStatus(false)
-
-        }, 10)
-
-        return () => clearInterval(checkAuth)
-    }
-
     useEffect(() => { 
+
+        const userAccount = new UserAccount() 
+
+        const _loadUserAuthStatus = () => { 
+            const checkAuth = setInterval(() => { 
+                    const status = userAccount.isAuthenticated() 
+                    setAuthStatus(status)
+    
+            }, 10)
+    
+            return () => clearInterval(checkAuth)
+        }
 
         _loadUserAuthStatus()
 
-    }, [])
+
+    }, []) 
+
+
     
     return ( 
         <BrowserRouter>

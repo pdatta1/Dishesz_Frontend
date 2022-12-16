@@ -46,9 +46,9 @@ const PhotoGallery = ({ photoList }) => {
 
     // handle the photoList array by altering its element dictionary with speific design patterns 
     const handlePhotos = () => { 
-        photoList.map((photo) => { 
+        photoList.map((photo) => (
             photo['sizes'] = '500px, 500px'
-        })
+        ))
         return photoList
     }
 

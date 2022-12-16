@@ -18,12 +18,6 @@ import { ReviewSection } from './Reviews'
 
 const RecipeDetails = ({ status, handler, data }) => { 
 
-    const noReviews = () => { 
-        if(data.reviews.length == 0){
-            return true 
-        }
-        return false 
-    }
 
     return ( 
         <Dialog 

@@ -24,8 +24,15 @@ class ExploreFeedApi extends AuthInstance{
     }
 
 
-    getExploreFeeds = async () => { 
-        return await this.authInstance.get('/recipe/view_recipes/')
+    getExploreFeeds = async (page_count) => { 
+
+        const feeds = await this.authInstance.get(`/recipe/view_recipes/?page=${page_count}`)
+
+        const feedArray = feeds.data.results 
+        const randomized_feeds = feedArray.sort(() => 0.5 - Math.random())
+        
+        return randomized_feeds
+
     }
 }
 

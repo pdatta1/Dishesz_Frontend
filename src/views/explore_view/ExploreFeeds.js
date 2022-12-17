@@ -24,7 +24,6 @@ import { isMobile } from '../../utils/MobileUtils'
 
 
 import GetAppIcon from '@mui/icons-material/GetApp'
-import RefreshIcon from '@mui/icons-material/Refresh'
 
 
 
@@ -132,7 +131,7 @@ const ExploreFeeds = () => {
                         icon={<GetAppIcon/>}
                         />
                 }
-                
+
                 <FeedPanel
                     shadow={0}>
 

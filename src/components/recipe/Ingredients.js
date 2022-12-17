@@ -4,7 +4,7 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
 import { RegularText, RegularChip } from '../texts/GenericTexts'
-import { IngredientLinkButton } from '../buttons/MenuButtons'
+import { IngredientLinkButton } from '../buttons/Buttons'
 
 
 const Ingredients = ({ data }) => { 

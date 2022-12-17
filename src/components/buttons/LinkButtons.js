@@ -39,7 +39,6 @@ const ProfileLink = ({ username }) => {
 
             {username}
         </Button>
-
     )
 }
 

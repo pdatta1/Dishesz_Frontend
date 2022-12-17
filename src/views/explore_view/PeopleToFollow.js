@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react'
 
 
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Skeleton } from '@mui/material'
 
 
 import { RegularText } from '../../components/texts/GenericTexts'
-import { PTFPanel, SmallPanel } from '../../components/panels/GenericPanels'
+import { PTFPanel } from '../../components/panels/GenericPanels'
+
+
 import UserAccount from '../../session/UserAccount'
 import ProfileDisplay from '../../components/users/ProfileDisplay'
 
@@ -15,6 +17,7 @@ import ProfileDisplay from '../../components/users/ProfileDisplay'
 const PeopleToFollow = () => { 
 
     const [ suggestedPeople, updateSuggestedPeople ] = useState([])
+    const [ isLoading, setIsLoading ] = useState(false)
 
     useEffect(() => { 
 
@@ -24,6 +27,7 @@ const PeopleToFollow = () => {
             
             const response = await userAccount.listPeopleToFollow() 
             updateSuggestedPeople(response.data.data)
+            setIsLoading(true)
         }
 
         _loadSuggestedPeople() 
@@ -35,41 +39,32 @@ const PeopleToFollow = () => {
             maxWidth="100%"
             sx={{
                 display: {
-                    xs: 'none', sm: 'none', md: 'none', lg: 'block'
+                    xs: 'none', sm: 'none', md: 'none', lg: 'block', 
                 }
             }}
             justifyContent="center"
-            alignItems="center"
-            >
-            <Stack 
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                >
+            alignItems="center">
 
-                <RegularText
-                    size={"18px"}
-                    text="People To Follow"/>
-
-                    
                 <PTFPanel
                     shadow={0}>
+                        
                     <Stack 
-                        mt={5}
+                        mt={1}
                         direction="column"
                         spacing={3}
                         justifyContent="center"
                         alignItems="center">
 
                         <Stack 
-                            mt={5}
+                            mt={1}
                             direction="column"
                             spacing={2}
                             justifyContent="center"
                             alignItems="center">
 
                         
-        
+
+                            {isLoading ? (
 
                             <Stack 
                                 direction="column"
@@ -85,7 +80,28 @@ const PeopleToFollow = () => {
                                         data={people}/>
                                         
                                 ))}
-                            </Stack> 
+                            </Stack>
+
+                            ): ( 
+
+                            <Stack 
+                                direction="column"
+                                spacing={2}
+                                justifyContent="center"
+                                alignItems="center"
+                                display="flex">
+
+                                    {[1,2,3,4,5].map((index, key) => ( 
+                                        <Skeleton 
+                                            key={key}
+                                            variant="rectangular" 
+                                            width={200} 
+                                            height={100} />
+                                    ))}
+                                
+                            </Stack>
+
+                            )}
 
                         
                         </Stack>
@@ -93,7 +109,6 @@ const PeopleToFollow = () => {
                     </Stack>
 
                 </PTFPanel>
-            </Stack>
                 
         </Box>
     )

@@ -8,8 +8,8 @@ import { Box, Stack } from '@mui/material'
 
 
 import { RegularText } from '../../components/texts/GenericTexts'
-import { SmallPanel } from '../../components/panels/GenericPanels'
-import { GenericButton } from '../../components/buttons/MenuButtons'
+import { ApproachPanel } from '../../components/panels/GenericPanels'
+import { GenericButton } from '../../components/buttons/Buttons'
 const ApproachView = () => { 
 
     return ( 
@@ -22,7 +22,7 @@ const ApproachView = () => {
                 }
             }}
             >
-            <SmallPanel
+            <ApproachPanel
                 shadow={0}>
                 <Stack 
                     mt={5}
@@ -79,7 +79,7 @@ const ApproachView = () => {
 
                 </Stack>
 
-            </SmallPanel>
+            </ApproachPanel>
                 
         </Box>
     )

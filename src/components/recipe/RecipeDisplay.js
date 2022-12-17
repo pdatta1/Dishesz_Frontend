@@ -13,12 +13,14 @@ import React, { useState } from 'react'
 
 import {Box, Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
-import { RegularChip, RegularText } from '../texts/GenericTexts'
+import { RegularChip, RegularContent, RegularText } from '../texts/GenericTexts'
 
 import { PhotoGallery } from './RecipePhoto'
-import { ViewMoreButton } from '../buttons/MenuButtons'
+import { ViewMoreButton } from '../buttons/Buttons'
 import RecipeDetails from './RecipeDetail'
 import RecipeDisplayTower from './RecipeDisplayTower'
+import RecipeSaved from './RecipeSaved'
+import LeaveReviews from './LeaveReviews'
 
 
 
@@ -43,7 +45,7 @@ const RecipeDisplay = ({ recipeData }) => {
         
         if(recipeData.recipe_description){ 
             let description = recipeData.recipe_description
-            let trunateWords = description.split(' ').slice(0, 50).join(' ')
+            let trunateWords = description.split(' ').slice(0, 30).join(' ')
             return trunateWords + '.....'
         }
     }
@@ -79,15 +81,7 @@ const RecipeDisplay = ({ recipeData }) => {
                                         profile_pic={recipeData.profile_pic}
                                         author={recipeData.author}/>
 
-                                    <Stack 
-                                        direction="column"
-                                        spacing={2}
-                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
-                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
-
-                                            <PhotoGallery
-                                                photoList={recipeData.photos}/>
-                                    </Stack>
+                                   
 
                                     <Stack 
                                         direction="column"
@@ -96,7 +90,7 @@ const RecipeDisplay = ({ recipeData }) => {
                                         justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
                                         alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
-                                            
+                                           
 
                                             <Stack 
                                                 direction={{xs: "column", sm: "column", md: "row"}}
@@ -117,37 +111,7 @@ const RecipeDisplay = ({ recipeData }) => {
 
                                             
 
-                                            <Stack 
-                                                direction="row"
-                                                spacing={2}
-                                                justifyContent="center"
-                                                alignItems="center">
-
-                                                <RegularChip
-                                                    indicator="primary"
-                                                    text="Prep Time"/>
-
-                                                <RegularChip
-                                                    indicator="success"
-                                                    text={recipeData.prep_time}/>
-
-                                            </Stack>
-
-                                            <Stack 
-                                                direction="row"
-                                                spacing={2}
-                                                justifyContent="center"
-                                                alignItems="center">
-
-                                                <RegularChip
-                                                    indicator="primary"
-                                                    text="Cook Time"/>
-
-                                                <RegularChip
-                                                    indicator="success"
-                                                    text={recipeData.cook_time}/>
-
-                                            </Stack>
+                                           
 
                                             <Stack 
                                                 direction={{xs: 'column', md:'row'}}
@@ -160,35 +124,47 @@ const RecipeDisplay = ({ recipeData }) => {
                                                     wordWrap: 'break-word',
                                                 }}>
 
-                                                <RegularText
-                                                    size="12px"
+                                                <RegularContent
+                                                    size="14px"
                                                     text={trunateRecipeDescription()}/>
 
-                                                <ViewMoreButton
-                                                    onPress={recipeDetailHandler}
-                                                    text="View More"/>
 
                                             </Stack>
 
-                                         
-    
+                                            <ViewMoreButton
+                                                    onPress={recipeDetailHandler}
+                                                    text="View More"/>
+
+                                           
+        
                                     </Stack>
 
                                     
+                                    <Stack 
+                                        direction="column"
+                                        spacing={2}
+                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
+
+                                            <PhotoGallery
+                                                photoList={recipeData.photos}/>
+                                    </Stack>
 
                                     <Stack 
                                         direction="row"
-                                        spacing={1}
+                                        spacing={5}
                                         display="flex"
                                         justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
                                         alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
-                                         
+                                        <RecipeSaved
+                                            saves={recipeData.saved_recipes}/>   
 
-                                            
+                                        <LeaveReviews
+                                            reviews={recipeData.recipe_reviews}/>   
 
                                     </Stack>
-
+                                    
 
                                 </Stack>
 

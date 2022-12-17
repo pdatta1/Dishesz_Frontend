@@ -246,9 +246,15 @@ class UserAccount extends AuthInstance{
 
         /**
          * 
-         * Account Termination
+         * Account Termination or logout
          * 
          */
+
+
+        logoutUser = () => { 
+            localStorage.removeItem('access')
+            localStorage.removeItem('refresh')
+        }
 
         deleteAccount = async () => { 
             /**

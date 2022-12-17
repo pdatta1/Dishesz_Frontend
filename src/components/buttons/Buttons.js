@@ -1,7 +1,7 @@
 /**
  * 
  * @author Patrick Atta-Baah 
- * @file MenuButtons.js
+ * @file Buttons.js
  * @purpose contain custom buttons for the webapp
  * 
  */
@@ -13,7 +13,11 @@ import { IconButton, Button } from '@mui/material'
 import WidgetsIcon from '@mui/icons-material/Widgets'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
+import LogoutIcon from '@mui/icons-material/Logout'
+import UserAccount from '../../session/UserAccount'
 
+
+const userAccount = new UserAccount() 
 
 const MobileMenuButton = ({ onPress }) => { 
     /**
@@ -172,7 +176,7 @@ const ViewMoreButton = ({ text, onPress, component, to, variant }) => {
     )
 }
 
-const GenericLinkButton = ({ text, onPress, component, to }) => { 
+const GenericLinkButton = ({ text, onPress, component, to, variant }) => { 
     /**
      * @purpose generic webapp link button
      * @param text: text to be display on button
@@ -181,7 +185,7 @@ const GenericLinkButton = ({ text, onPress, component, to }) => {
 
     return ( 
         <Button 
-            variant="contained"
+            variant={variant}
             onClick={onPress}
             component={component}
             to={to}
@@ -222,6 +226,23 @@ const IngredientLinkButton = ({ text, link }) => {
 
     )
 }
+
+
+const LogoutButton = () => { 
+    return ( 
+        <IconButton
+            size="large"
+            aria-label="logout"
+            color="inherit"
+            onClick={() => { 
+                userAccount.logoutUser() 
+            }}>
+            <LogoutIcon/>
+        </IconButton>
+    )
+}
+
+
 export { 
     MobileMenuButton, 
     GenericButton,
@@ -231,5 +252,6 @@ export {
     SubmitButton,
     FollowButton,
     UnFollowButton,
+    LogoutButton,
 }
 

@@ -35,24 +35,23 @@ const MainView = () => {
 
     useEffect(() => { 
 
-        const userAccount = new UserAccount() 
 
-        const _loadUserAuthStatus = () => { 
-            const checkAuth = setInterval(() => { 
-                    const status = userAccount.isAuthenticated() 
-                    setAuthStatus(status)
-    
-            }, 10)
-    
-            return () => clearInterval(checkAuth)
-        }
+        const checkAuth = setInterval(() => { 
+                const userAccount = new UserAccount() 
+                const status = userAccount.isAuthenticated() 
+                setAuthStatus(status)
 
-        _loadUserAuthStatus()
+        }, 10)
+
+        return () => clearInterval(checkAuth)
+    
+
 
 
     }, []) 
 
 
+    console.log(authStatus)
     
     return ( 
         <BrowserRouter>

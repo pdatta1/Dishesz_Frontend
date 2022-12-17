@@ -6,7 +6,7 @@ import { Box, Stack, TextField } from '@mui/material'
 import { RegularText } from '../../components/texts/GenericTexts'
 
 import { AuthForm } from '../../components/panels/GenericPanels'
-import { GenericButton, SubmitButton } from '../../components/buttons/MenuButtons'
+import { GenericButton, SubmitButton } from '../../components/buttons/Buttons'
 
 import { Link , useNavigate } from 'react-router-dom'
 

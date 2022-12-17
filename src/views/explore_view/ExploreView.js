@@ -24,21 +24,21 @@ const ExploreView = () => {
      *          by implementing a three way layout, RecipeAdsView, ExploreFeeds, ApproachView
      */
 
-    const userAccount = new UserAccount()
-    const accessToken = userAccount.getLocalAccessToken() 
-    const [ isAuthenticated, updateIsAuthenticated ] = useState(false)
-
+    const [ authStatus, setAuthStatus ] = useState(false)
 
     useEffect(() => { 
 
-        const checkAuth = () => { 
-            if(accessToken){ 
-                updateIsAuthenticated(true)
-            }
-        }
 
-        checkAuth()
-    }, [])
+        const checkAuth = setInterval(() => { 
+                const userAccount = new UserAccount() 
+                const status = userAccount.isAuthenticated() 
+                setAuthStatus(status)
+
+        }, 10)
+
+        return () => clearInterval(checkAuth)
+
+    }, []) 
 
     return ( 
         <Box 
@@ -57,7 +57,7 @@ const ExploreView = () => {
                         
                         <RecipeAdsView/>
                         <ExploreFeeds/>
-                        {!isAuthenticated ? (
+                        {!authStatus ? (
                             <ApproachView/>
                         ): (
                             <PeopleToFollow/>

@@ -10,7 +10,8 @@
 
 import React from 'react'
 
-import { Paper, Grow } from '@mui/material'
+import { Paper, Grow, Stack } from '@mui/material'
+import { RegularText } from '../texts/GenericTexts'
 
 
 const FeedPanel = ({ children, shadow }) => { 
@@ -64,22 +65,73 @@ const PTFPanel = ({ children, shadow }) => {
 
     return ( 
         <Grow 
-        in={true}
-        style={{ transformOrigin: '0 0 0'}}
-        {...(true ? { timeout: 1000} : {} )}>
-            <Paper 
-                elevation={shadow}
-                sx={{
-                    height: '85vh', 
-                    width: { xs: '100%', sm: '100%', md: '30vh'},
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
-                    overflow: 'auto',
-                }}>
+            in={true}
+            style={{ transformOrigin: '0 0 0'}}
+            {...(true ? { timeout: 1000} : {} )}>
 
-                    {children}
+                
+                    <Paper 
+                        elevation={shadow}
+                        sx={{
+                            height: '85vh', 
+                            width: { xs: '100%', sm: '100%', md: '30vh'},
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            overflow: 'auto',
+                            mt: 5
+                        }}>
 
-            </Paper>
+                        <Stack 
+                            direction="column"
+                            spacing={1}
+                            justifyContent="center"
+                            alignItems="center">
+
+                            <RegularText
+                                size="12px"
+                                text="People To Follow"/>
+
+                            {children}
+
+                        </Stack>
+
+                    </Paper>
+        </Grow>
+    )
+}
+
+
+const ApproachPanel = ({ children, shadow }) => { 
+
+    /**
+     * 
+     * @purpose 
+     *      Feed Panel serves a the main panel within the exploreFeed class,
+     *      it's allow overflow with the height of 85vh so that users get a smooth feel when scrolling thru
+     *      the explore feed without disrupting the overall layout
+     * 
+     * @param children displays the nested components that follows
+     * @param shadow the amount of boxshadow to be render
+     */
+
+    return ( 
+        <Grow 
+            in={true}
+            style={{ transformOrigin: '0 0 0'}}
+            {...(true ? { timeout: 1000} : {} )}>
+                <Paper 
+                    elevation={shadow}
+                    sx={{
+                        height: '85vh', 
+                        width: { xs: '100%', sm: '100%', md: '30vh'},
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                        overflow: 'auto',
+                    }}>
+
+                        {children}
+
+                </Paper>
         </Grow>
     )
 }
@@ -105,7 +157,7 @@ const SmallPanel = ({ children, shadow }) => {
                     height: { sm: '100%', md: 'auto'}, 
                     width: {xs: '100%', sm: '100%', md: '80vh'},
                     justifyContent: 'center', 
-                    alignItems: 'center'
+                    alignItems: 'center', 
                 }}>
 
                     {children}
@@ -185,4 +237,5 @@ export {
     ReviewPanel,
     AuthForm, 
     PTFPanel,
+    ApproachPanel,
 }

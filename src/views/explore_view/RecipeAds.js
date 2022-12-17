@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { Box, Stack, Paper } from '@mui/material'
+import { Box, Stack } from '@mui/material'
+import { ApproachPanel } from '../../components/panels/GenericPanels'
 
 
 import { RegularText } from '../../components/texts/GenericTexts'
@@ -21,22 +22,21 @@ const RecipeAdsView = () => {
                 }
             }}>
 
-                <Paper 
-                    elevation={0}
-                    sx={{
-                        width: '25vh',
-                        height: '80vh'
-                    }}>
-                    <Stack 
-                        direction="column"
-                        spacing={2}
-                        justifyContent="center"
-                        alignItems="center">
+                <ApproachPanel
+                    shadow={0}>
+                        <Stack 
+                            mt={5}
+                            direction="column"
+                            spacing={3}
+                            justifyContent="center"
+                            alignItems="center">
 
                             <RegularText
+                                size="12px"
                                 text="Recipe Ads View"/>
-                    </Stack> 
-                </Paper>
+                                
+                        </Stack>
+                </ApproachPanel>
 
                 
         </Box>

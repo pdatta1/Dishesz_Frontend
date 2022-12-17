@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react'
 
-import { Card, CardContent, Avatar, Stack } from '@mui/material'
-import { RegularChip, RegularText } from '../texts/GenericTexts'
-import { FollowButton, GenericButton, GenericLinkButton, UnFollowButton, ViewMoreButton } from '../buttons/MenuButtons'
+import { Card, Avatar, Stack } from '@mui/material'
+import { FollowButton, UnFollowButton, ViewMoreButton } from '../buttons/Buttons'
 import UserAccount from '../../session/UserAccount'
 
 

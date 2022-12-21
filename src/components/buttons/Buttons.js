@@ -125,7 +125,7 @@ const UnFollowButton = ({ text, onPress, variant }) => {
     )
 }
 
-const SubmitButton = ({ text, onPress, variant }) => { 
+const SubmitButton = ({ text, onPress, variant, disabled }) => { 
     /**
      * @purpose generic webapp button
      * @param text: text to be display on button
@@ -137,6 +137,7 @@ const SubmitButton = ({ text, onPress, variant }) => {
             variant={variant}
             onClick={onPress}
             type="submit"
+            disabled={disabled}
             sx={{
                 fontSize: '15px',
                 width: '12rem',

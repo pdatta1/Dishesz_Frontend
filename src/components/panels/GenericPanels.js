@@ -85,7 +85,8 @@ const PTFPanel = ({ children, shadow }) => {
                             direction="column"
                             spacing={1}
                             justifyContent="center"
-                            alignItems="center">
+                            alignItems="center"
+                            >
 
                             <RegularText
                                 size="12px"
@@ -155,9 +156,10 @@ const SmallPanel = ({ children, shadow }) => {
                 elevation={shadow}
                 sx={{
                     height: { sm: '100%', md: 'auto'}, 
-                    width: {xs: '100%', sm: '100%', md: '80vh'},
+                    width: {xs: '100%', sm: '100%', md: '60vh'},
                     justifyContent: 'center', 
                     alignItems: 'center', 
+                    marginBottom: 1
                 }}>
 
                     {children}

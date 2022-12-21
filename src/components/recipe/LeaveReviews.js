@@ -3,34 +3,41 @@
 import React from 'react'
 
 import Stack from '@mui/material/Stack'
+import { RegularChip, RegularText } from '../texts/GenericTexts'
+
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
-import { RegularChip } from '../texts/GenericTexts'
+import { FormControlLabel, FormGroup, IconButton } from '@mui/material'
+import { Box } from '@mui/system'
 
 
 const LeaveReviews = ({ reviews }) => { 
 
-    const getSaves = () => { 
+    const getReviewsCount= () => { 
         return reviews.length
     }
 
     return ( 
-        <Stack 
-            direction="row"
-            spacing={1}
-            justifyContent="center"
-            alignItems="center"
-            display="flex">
-
-            
-            <ChatBubbleOutlineIcon/>
-
-            <RegularChip
-                indicator={"primary"}
-                text={getSaves()}/>
-
+     
+       <Box 
+        sx={{
+            marginTop: 5
+        }}>
+            <FormGroup>
                 
+                <FormControlLabel
+                    control={
+                    <IconButton
+                        aria-label="reviews"
+                        size="small">
 
-        </Stack>
+                        <ChatBubbleOutlineIcon/>
+
+                    </IconButton>
+                    }
+                    label={getReviewsCount()}/>
+            </FormGroup>
+        </Box>
+
     )
 }
 

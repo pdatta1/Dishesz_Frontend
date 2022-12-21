@@ -17,7 +17,7 @@ const ReviewSection = ({ reviews }) => {
         return false 
     }
 
-    console.log('Reviews', reviews)
+    //console.log('Reviews', reviews)
 
     return ( 
         <SmallPanel

@@ -3,8 +3,12 @@
 import React from 'react'
 
 import Stack from '@mui/material/Stack'
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt'
+
 import { RegularChip } from '../texts/GenericTexts'
+import { Checkbox, FormControl, FormControlLabel, FormGroup } from '@mui/material'
+
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 
 
 const RecipeSaved = ({ saves }) => { 
@@ -13,24 +17,30 @@ const RecipeSaved = ({ saves }) => {
         return saves.length
     }
 
+
     return ( 
-        <Stack 
-            direction="row"
-            spacing={1}
-            justifyContent="center"
-            alignItems="center"
-            display="flex">
+     
 
             
-            <ThumbUpOffAltIcon/>
+            <form>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                label={getSaves()}
+                                icon={<ThumbUpOffAltIcon/>}
+                                checkedIcon={<ThumbUpAltIcon/>}
+                                />
+                            }
+                        label={getSaves()}
+                    >
 
-            <RegularChip
-                indicator={"primary"}
-                text={getSaves()}/>
+                    </FormControlLabel>
+                </FormGroup>
+            </form>
 
                 
 
-        </Stack>
     )
 }
 

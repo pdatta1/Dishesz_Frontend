@@ -39,11 +39,13 @@ class UserAccount extends AuthInstance{
              * @param credentials: dictionary consisting of username && password of user
              */
             const signData = await this.authInstance.post('users/access/', credentials)
-            if(signData){ 
-                const { access, refresh } = signData.data 
-                this.saveAccessToken(access)
-                this.saveRefreshToken(refresh)
+            if(!signData){ 
+               return signData.data.details 
             }
+            const { access, refresh } = signData.data 
+            this.saveAccessToken(access)
+            this.saveRefreshToken(refresh)
+
         }
 
 
@@ -76,6 +78,25 @@ class UserAccount extends AuthInstance{
             }
             return false 
             
+        }
+
+
+        isInterestPicked = async () => { 
+
+            const interest_status = await this.authInstance.get('users/check_interest_picked/')
+            return interest_status.data.status 
+
+        }
+
+     
+
+        getAllInterests = async () => { 
+            const interests = await this.authInstance.get('users/interest_collections/')
+            return interests.data.interests 
+        }
+
+        establishInterests = async ( interests ) => { 
+            return await this.authInstance.post('feeds/establish_interest/', interests)
         }
 
 
@@ -220,6 +241,23 @@ class UserAccount extends AuthInstance{
              * 
              */
             return await this.authInstance.get('users/people_to_follow/')
+        }
+
+
+        viewProfileByUsername = async ( username ) => { 
+            /**
+             * 
+             * @purpose get username profile response data from username lookup
+             * @returns response data from auth instance
+             * @param username: username string to be lookup
+             */
+
+            let lookupData = { 
+                username: username 
+            }
+
+            return await this.authInstance.post('users/lookup_user_profile/', lookupData)
+        
         }
 
 

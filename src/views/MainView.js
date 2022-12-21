@@ -18,6 +18,7 @@ import DisheszAppBar from '../components/menu/DisheszAppBar'
 import ViewHandler from './ViewHandler'
 
 import UserAccount from '../session/UserAccount'
+import EstablishInterests from './signup/EstablishInterests'
 
 
 
@@ -32,26 +33,58 @@ const MainView = () => {
 
 
     const [ authStatus, setAuthStatus ] = useState(false)
+    const [ interestPicked, setInterestPicked ] = useState(false)
 
     useEffect(() => { 
 
+ 
+        const userAccount = new UserAccount() 
 
         const checkAuth = setInterval(() => { 
-                const userAccount = new UserAccount() 
-                const status = userAccount.isAuthenticated() 
-                setAuthStatus(status)
 
-        }, 10)
+                const account = new UserAccount() 
+                const status = account.isAuthenticated() 
+                setAuthStatus(status)
+            
+        }, 1)
+
+    
+        const checkProfileStatus = async () => { 
+
+            console.log('Checking Interest......')
+
+            if( authStatus ){
+                const response = await userAccount.isInterestPicked()
+                setInterestPicked(response)
+            }
+        }
+
+        const _loadApplicationComponents = async () => { 
+
+            await checkProfileStatus() 
+        }
+
+        _loadApplicationComponents() 
 
         return () => clearInterval(checkAuth)
     
+        
 
 
 
-    }, []) 
+    
+
+    }, [authStatus]) 
 
 
     console.log(authStatus)
+    console.log('Interest Picked', interestPicked)
+
+    if ( authStatus && !interestPicked ){ 
+        return ( 
+            <EstablishInterests/>
+        )
+    }
     
     return ( 
         <BrowserRouter>

@@ -1,15 +1,24 @@
 
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Stack } from '@mui/material'
 import { ProfileLink } from '../buttons/LinkButtons'
 
 import ProfileCard from './ProfileCard'
+import ViewProfile from '../users/ViewProfile'
 
-const RecipeDisplayTower = ({ profile_pic, author}) => { 
+const RecipeDisplayTower = ({ profile_pic, author, profileData}) => { 
 
-    //console.log('Profile Pic', profile_pic)
+
+    const [ viewProfileStatus, setViewProfileStatus ] = useState(false)
+
+    const handleViewProfile = async () => { 
+
+        setViewProfileStatus(!viewProfileStatus)
+    }
+
+
     return ( 
         <Stack 
             mt={5}
@@ -22,9 +31,15 @@ const RecipeDisplayTower = ({ profile_pic, author}) => {
                 media={profile_pic}/>
 
             <ProfileLink
-                username={author}/>
+                username={author}
+                onPress={handleViewProfile}/>
 
-    </Stack>
+            <ViewProfile
+                status={viewProfileStatus}
+                handler={handleViewProfile}
+                />
+
+         </Stack>
 
     )
 }

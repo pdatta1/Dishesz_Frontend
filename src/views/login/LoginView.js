@@ -8,9 +8,10 @@ import { RegularText } from '../../components/texts/GenericTexts'
 import { AuthForm } from '../../components/panels/GenericPanels'
 import { GenericButton, SubmitButton } from '../../components/buttons/Buttons'
 
-import { Link , useNavigate } from 'react-router-dom'
+import { Link , Navigate, useNavigate } from 'react-router-dom'
 
 import UserAccount from '../../session/UserAccount'
+import Display from '../../components/misc/Display' 
 
 const LoginView = () => { 
 
@@ -20,6 +21,18 @@ const LoginView = () => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
 
+    const [ displayData, setDisplayData ] = useState({ 
+        status: false, 
+        indicator: "",
+        text: "",
+        content: ""
+    })
+
+
+    const handleDisplay = () => { 
+        setDisplayData({ status: !displayData.status})
+    }
+
     const handleUsernameInput = ( e ) => { 
         setUsername(e.target.value)
     }
@@ -28,20 +41,64 @@ const LoginView = () => {
         setPassword(e.target.value)
     }
 
-    const handleAuthentication = async ( e ) => { 
-
-        e.preventDefault() 
-
-        let credentials = { 
-            username: username, 
-            password: password
-        }
-        await userAccount.signInUser(credentials)
+    const validateCredential = () => { 
         
+       if (username.length == 0 || password.length == 0){ 
+            return false 
+       }
+       return true 
+       
+    }
+
+    const refreshComponents = ( relocate ) => { 
+
         setUsername("")
         setPassword("")
 
-        navigate('/')
+        if ( relocate ){ 
+            navigate("/")
+        }
+    }
+
+    const handleAuthentication = async ( e ) => { 
+
+        e.preventDefault() 
+        let isValid = validateCredential() 
+
+        if(!isValid){ 
+            setDisplayData({ 
+                status: true, 
+                indicator: "error",
+                text: "Check Login Info"
+            })
+            return 
+        }
+
+        let credential = { 
+            username: username,
+            password: password
+        }
+
+        await userAccount.signInUser(credential)
+            .then(() => { 
+                refreshComponents(true)
+            })
+           .catch(() => { 
+            setDisplayData({ 
+                status: true, 
+                indicator: "error",
+                text: "Error Signin in",
+                content: "Incorrect Username and Password Combination"
+
+            })
+            refreshComponents(false)
+            
+           })
+
+       
+    
+        
+       
         
     }
 
@@ -96,7 +153,8 @@ const LoginView = () => {
 
                                     <SubmitButton
                                         text="Login"
-                                        variant="contained"/>
+                                        variant="contained"
+                                        onPress={validateCredential}/>
 
                                     <RegularText
                                         size="12px"
@@ -114,6 +172,10 @@ const LoginView = () => {
                         </AuthForm>
 
                 </Stack>
+
+                <Display
+                    handler={handleDisplay}
+                    displayData={displayData}/>
                 
         </Box>
     )

@@ -3,6 +3,10 @@
     font-family: 'AZN';
 }
 
+body{ 
+    background-color: '#fffffa';
+}
+
 ::-webkit-scrollbar {
     display: none;
 }

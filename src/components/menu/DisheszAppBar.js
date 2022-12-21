@@ -26,12 +26,6 @@ const DisheszAppBar = ({ isAuthenticated }) => {
      */
 
 
-    const getAppBarHeight = () => { 
-        let appBarHeight = document.getElementsByClassName('appBar').clientHeight
-        return appBarHeight
-    }
-
-
     console.log('Auth Status', isAuthenticated)
 
     if(!isAuthenticated){ 
@@ -54,8 +48,20 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                                 text="Dishesz"
                                 color="#ffffff"/>
 
-                            <Box 
-                                sx={{ flexGrow: 1}}></Box>
+                                <Box sx={{ flexGrow: { xs: 0, md: .75}}}></Box>
+
+                                <Box 
+                                    sx={{ 
+                                        display: { xs: 'block', sm: 'block', md: 'block' },
+                                        flexGrow: {xs: 1, md:  0}
+                                        }}>
+
+                                    <SearchBar/> 
+                                </Box>
+
+                                <Box sx={{ flexGrow: { xs: 1, md: .8}}}></Box>
+
+                                                            
 
                             <Box 
                                 sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
@@ -127,7 +133,7 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                                 <SearchBar/> 
                             </Box>
 
-                            <Box sx={{ flexGrow: { xs: 1, md: 1}}}></Box>
+                            <Box sx={{ flexGrow: { xs: 1, md: .8}}}></Box>
 
                             <Box 
                                 sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>

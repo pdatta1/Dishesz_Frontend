@@ -45,7 +45,8 @@ const ExploreView = () => {
             display="flex"
             justifyContent="center" 
             alignItems="center"
-            maxWidth="100%">
+            maxWidth="100%"
+            >
 
                 <Stack
                     direction={{xs: "column", sm:"column", md: "row"}}

@@ -7,7 +7,7 @@
  */
 
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Box } from '@mui/material'
 import { Routes, Route } from 'react-router-dom'
@@ -15,6 +15,7 @@ import { Routes, Route } from 'react-router-dom'
 import ExploreView from './explore_view/ExploreView'
 import LoginView from './login/LoginView'
 import SignupView from './signup/SignupView'
+import VerifyEmailView from './signup/VerifyEmail'
 
 const ViewHandler = ({ isAuthenticated }) => { 
 
@@ -36,12 +37,14 @@ const ViewHandler = ({ isAuthenticated }) => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                maxWidth="100%">
+                maxWidth="100%"
+               >
 
                     <Routes>
                         <Route exact path="/" element={<ExploreView/>}/>
                         <Route path="/login" element={<LoginView/>}/>
                         <Route path="/signup" element={<SignupView/>}/>
+                        <Route path="/verify" element={<VerifyEmailView/>}/>
                     </Routes>
 
             </Box>
@@ -49,6 +52,7 @@ const ViewHandler = ({ isAuthenticated }) => {
         )
 
     }
+
 
     return ( 
         <Box 

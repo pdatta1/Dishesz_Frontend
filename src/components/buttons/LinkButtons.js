@@ -14,7 +14,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 
-const ProfileLink = ({ username }) => { 
+const ProfileLink = ({ username, onPress }) => { 
 
     /**
      * 
@@ -30,6 +30,7 @@ const ProfileLink = ({ username }) => {
     return ( 
         <Button 
             variant="text"
+            onClick={onPress}
             sx={{
                 fontSize: '12px',
                 width: '1rem',

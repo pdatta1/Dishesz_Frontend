@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom'
 import ImageLoader from '../../components/misc/ImageLoader'
 import UserAccount from '../../session/UserAccount'
 
-
 import AccountCreatedLogo from '../../icons/thumbs_up.png'
 
 

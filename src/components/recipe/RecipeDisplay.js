@@ -54,6 +54,8 @@ const RecipeDisplay = ({ recipeData }) => {
         setDetailStatus(!detailStatus)
     }
 
+
+
     
 
 
@@ -64,14 +66,16 @@ const RecipeDisplay = ({ recipeData }) => {
                 alignItems="center"
                 display="flex"
                 width="100%"
-                maxWidth="100%">
+                maxWidth="100%"
+                >
 
                         <SmallPanel
-                            shadow={5}>
+                            shadow={4}>
                                 
 
                                 <Stack 
                                     ml={{ sm: 0, md: 4}}
+                                    mb={2}
                                     direction="column"
                                     spacing={2}
                                     justifyContent="center"
@@ -103,7 +107,7 @@ const RecipeDisplay = ({ recipeData }) => {
                                                     text={recipeData.recipe_name}/>
 
                                                 <RegularChip
-                                                indicator="secondary"
+                                                    indicator="secondary"
                                                 text={recipeData.category}/>
 
                                                 
@@ -157,6 +161,7 @@ const RecipeDisplay = ({ recipeData }) => {
                                         justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
                                         alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
+                                        
                                         <RecipeSaved
                                             saves={recipeData.saved_recipes}/>   
 

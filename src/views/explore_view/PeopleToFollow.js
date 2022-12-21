@@ -5,8 +5,6 @@ import React, { useState, useEffect } from 'react'
 
 import { Box, Stack, Skeleton } from '@mui/material'
 
-
-import { RegularText } from '../../components/texts/GenericTexts'
 import { PTFPanel } from '../../components/panels/GenericPanels'
 
 
@@ -18,6 +16,7 @@ const PeopleToFollow = () => {
 
     const [ suggestedPeople, updateSuggestedPeople ] = useState([])
     const [ isLoading, setIsLoading ] = useState(false)
+
 
     useEffect(() => { 
 
@@ -109,7 +108,8 @@ const PeopleToFollow = () => {
                     </Stack>
 
                 </PTFPanel>
-                
+
+               
         </Box>
     )
 }

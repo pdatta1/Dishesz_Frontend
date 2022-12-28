@@ -6,6 +6,7 @@ import { FollowButton, ViewMoreButton } from '../buttons/Buttons'
 import UserAccount from '../../session/UserAccount'
 import ViewProfile from './ViewProfile'
 import { assignProfilePics } from '../../tests/TestFeeds'
+import { GenericCircularProgress } from '../misc/GenericProgress'
 
 
 
@@ -30,13 +31,19 @@ const ProfileDisplay  = ({ data, authStatus }) => {
     const [ profileData, setProfileData ] = useState() 
     const [ followStatus, setFollowStatus ] = useState(false)
 
+    const [ loading, setLoading ] = useState(false)
+
     const handleViewProfile = async () => { 
+
+        setLoading(true)
 
         const profile = await userAccount.viewProfileByUsername(data.username)
         await isUserFollowing() 
         
         setProfileData(profile.data.user_profile)
         setViewProfileStatus(!viewProfileStatus)
+
+        setLoading(false)
     }
 
     const refreshUserProfile = async () => { 
@@ -92,11 +99,15 @@ const ProfileDisplay  = ({ data, authStatus }) => {
                     <ProfilePhoto
                         media={data.profile_pic}/>
 
-                    
-                    <ViewMoreButton
-                        variant="text"
-                        text={data.username}
-                        onPress={handleViewProfile}/>
+
+                    {!loading ? ( 
+                        <ViewMoreButton
+                            variant="text"
+                            text={data.username}
+                            onPress={handleViewProfile}/>
+                    ): ( 
+                        <GenericCircularProgress/>
+                    )}
 
 
                 </Stack>
@@ -115,6 +126,7 @@ const ProfileDisplay  = ({ data, authStatus }) => {
                 handler={handleViewProfile}
                 profileData={profileData}
                 authStatus={authStatus}
+                loading={loading}
                 refreshHandler={refreshUserProfile}/>
                 
         </Card>

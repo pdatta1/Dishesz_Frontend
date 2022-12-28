@@ -16,8 +16,8 @@ import ExploreView from './explore_view/ExploreView'
 import LoginView from './login/LoginView'
 import SignupView from './signup/SignupView'
 import VerifyEmailView from './signup/VerifyEmail'
-import MyFeed from './user_feeds/MyFeed'
 import MyProfile from './profile/MyProfile'
+import FeedView from './user_feeds/FeedView'
 
 const ViewHandler = ({ isAuthenticated }) => { 
 
@@ -67,7 +67,7 @@ const ViewHandler = ({ isAuthenticated }) => {
                     <Routes>
                         <Route exact path="/explore" element={<ExploreView/>}/>
                         <Route path="/my_profile" element={<MyProfile/>}/>
-                        <Route path="/my_feeds" element={<MyFeed/>}/>
+                        <Route path="/my_feeds" element={<FeedView/>}/>
                     </Routes>
         </Box>
     )

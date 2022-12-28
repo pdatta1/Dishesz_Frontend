@@ -11,7 +11,7 @@
 
 import React, { useState } from 'react'
 
-import {Box, setRef, Stack } from '@mui/material'
+import {Box, Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
 import { ClickableChip, NavigateChip, RegularChip, RegularContent, RegularText } from '../texts/GenericTexts'
 
@@ -88,8 +88,7 @@ const RecipeDisplay = ({ recipeData, lookupHandler, isAuthenticated }) => {
                 alignItems="center"
                 display="flex"
                 width="100%"
-                maxWidth="100%"
-                >
+                maxWidth="100%">
 
                         <SmallPanel
                             shadow={4}
@@ -180,43 +179,38 @@ const RecipeDisplay = ({ recipeData, lookupHandler, isAuthenticated }) => {
                                         alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
                                             
-                                            <PhotoGallery
-                                                photoList={assignTestRecipePhotos()}/>
-                                    </Stack>
-
-                                        <Stack 
-                                            direction="row"
-                                            spacing={5}
-                                            display="flex"
-                                            justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
-                                            alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
-
-                                            
-                                            <RecipeSaved
-                                                saves={recipe.saved_recipes}
-                                                recipeID={recipe.id}
-                                                authStatus={isAuthenticated}
-                                                savedStatus={savedStatus}
-                                                refresh={refreshRecipeData}
-                                                />   
-
-                                            <LeaveReviews
-                                                identifier_name={recipeData.recipe_name}
-                                                identifier={recipeData.id}
-                                                reviews={recipe.recipe_reviews}
-                                                authStatus={isAuthenticated}
-                                                refresh={refreshRecipeData}/>   
-
-                                            
-                                            {!isAuthenticated && 
-                                                <NavigateChip
-                                                    text="Login to like or leave review"
-                                                    component={Link}
-                                                    to={"/login"}
-                                                />
-                                            }
+                                        <PhotoGallery
+                                            photoList={assignTestRecipePhotos()}/>
 
                                         </Stack>
+
+                                            <Stack 
+                                                direction="row"
+                                                spacing={5}
+                                                display="flex"
+                                                justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                                alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
+
+                                                
+                                                <RecipeSaved
+                                                    saves={recipe.saved_recipes}
+                                                    recipeID={recipe.id}
+                                                    authStatus={isAuthenticated}
+                                                    savedStatus={savedStatus}
+                                                    refresh={refreshRecipeData}
+                                                    />   
+
+                                                <LeaveReviews
+                                                    identifier_name={recipeData.recipe_name}
+                                                    identifier={recipeData.id}
+                                                    reviews={recipe.recipe_reviews}
+                                                    authStatus={isAuthenticated}
+                                                    refresh={refreshRecipeData}/>   
+
+                                                
+                                                
+
+                                            </Stack>
                                     
 
                                 </Stack>

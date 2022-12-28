@@ -12,10 +12,11 @@ import { RegularText } from '../texts/GenericTexts'
 
 import UserProfile from './leftview/LeftContainer'
 import UserProfileInfo from './rightview/RightContainer'
+import { GenericCircularProgress } from '../misc/GenericProgress'
 
 
 
-const ViewProfile = ({ status, handler, profileData, authStatus, refreshHandler }) => { 
+const ViewProfile = ({ status, handler, loading, profileData, authStatus, refreshHandler }) => { 
 
     if(profileData){
         return ( 
@@ -36,14 +37,18 @@ const ViewProfile = ({ status, handler, profileData, authStatus, refreshHandler 
                         <Toolbar>
 
 
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                aria-label="close"
-                                onClick={handler}>
-                                
-                                <CloseIcon/>
-                            </IconButton>
+                            {!loading ? ( 
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="close"
+                                    onClick={handler}>
+                                    
+                                    <CloseIcon/>
+                                </IconButton>
+                            ): ( 
+                                <GenericCircularProgress/>
+                            )}
 
                             <RegularText
                                 size="14px"

@@ -1,9 +1,10 @@
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Stack } from '@mui/material'
 import { ProfileLink } from '../buttons/LinkButtons'
+import { GenericCircularProgress } from '../misc/GenericProgress'
 
 import ProfileCard from './ProfileCard'
 import ViewProfile from '../users/ViewProfile'
@@ -15,24 +16,38 @@ const RecipeDisplayTower = ({ profile_pic, author, refresh, savedStatus, authSta
 
     const [ viewProfileStatus, setViewProfileStatus ] = useState(false)
     const [ profileData, setProfileData ] = useState()
+    const [ loading, setLoading ] = useState(false)
 
     const handleViewProfile = async () => { 
+
+        setLoading(true)
 
         const profile = await userAccount.viewProfileByUsername(author)
         await refresh() 
 
         setProfileData(profile.data.user_profile)
         setViewProfileStatus(!viewProfileStatus)
+
+        setLoading(false)
     }
 
     const refreshUserProfile = async () => { 
+
+        setLoading(true)
+
         const profile = await userAccount.viewProfileByUsername(author)
         setProfileData(profile.data.user_profile)
+
+        setLoading(false)
     }
 
     //console.log('Profile Data', profileData)
 
     console.log('AuthStatus', authStatus)
+
+    useEffect(() => { 
+
+    }, [ loading ])
 
     return ( 
         <Stack 
@@ -45,10 +60,14 @@ const RecipeDisplayTower = ({ profile_pic, author, refresh, savedStatus, authSta
             <ProfileCard
                 media={profile_pic}/>
 
-            <ProfileLink
-                username={author}
-                onPress={handleViewProfile}
-                allowViewed={authStatus}/>
+            {!loading ? (
+                <ProfileLink
+                    username={author}
+                    onPress={handleViewProfile}
+                    allowViewed={authStatus}/>
+            ): ( 
+                <GenericCircularProgress/>
+            )}
 
             <ViewProfile
                 status={viewProfileStatus}
@@ -56,6 +75,7 @@ const RecipeDisplayTower = ({ profile_pic, author, refresh, savedStatus, authSta
                 profileData={profileData}
                 refreshHandler={refreshUserProfile}
                 authStatus={authStatus}
+                loading={loading}
                 />
 
          </Stack>

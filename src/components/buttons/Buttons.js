@@ -8,13 +8,15 @@
 
 import React, { useEffect, useState } from 'react'
 
-import { IconButton, Button } from '@mui/material'
+import { IconButton, Button, Box } from '@mui/material'
+import { LinearProgress } from '@mui/material'
 
 import WidgetsIcon from '@mui/icons-material/Widgets'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
 import LogoutIcon from '@mui/icons-material/Logout'
 import UserAccount from '../../session/UserAccount'
+import { GenericCircularProgress, GenericLinearProgress } from '../misc/GenericProgress'
 
 
 const userAccount = new UserAccount() 
@@ -83,17 +85,27 @@ const FollowButton = ({ followed, variant, username, refresh }) => {
 
     const [ isFollowed, setIsFollowed ] = useState(followed)
     const [ isRequestUser, setIsRequestUser ] = useState(false)
+    const [ loading, setLoading ] = useState(false)
 
     const followUserByUsername = async () => { 
+
+        setLoading(true)
         await userAccount.follow(username)
         await refresh() 
         setIsFollowed(true)
+
+        setLoading(false)
     }
 
     const unFollowUserByUsername = async () => { 
+
+        setLoading(true)
+
         await userAccount.unFollow(username)
         await refresh() 
         setIsFollowed(false)
+
+        setLoading(false)
     }
 
 
@@ -128,45 +140,65 @@ const FollowButton = ({ followed, variant, username, refresh }) => {
         isUserFollowing() 
         avoidUserFollowingSelf() 
 
-    }, [isFollowed, followed, isRequestUser])
+    }, [isFollowed, followed, isRequestUser, loading])
 
     return ( 
 
         <div>
             {!isFollowed ? (
-                <Button 
-                    variant={variant}
-                    onClick={followUserByUsername}
-                    endIcon={<GroupAddIcon/>}
-                    disabled={isRequestUser}
-                    sx={{
-                        fontSize: '12px',
-                        width: '7rem',
-                        borderRadius: '10px', 
-                        fontFamily: 'Dishesz1'
-                    }}>
+                  <Box
+                    display="flex"
+                    width="100%"
+                    >
+                    {!loading ? (
+                        <Button 
+                            variant={variant}
+                            onClick={followUserByUsername}
+                            endIcon={<GroupAddIcon/>}
+                            disabled={isRequestUser}
+                            sx={{
+                                fontSize: '12px',
+                                width: '7rem',
+                                borderRadius: '10px', 
+                                fontFamily: 'Dishesz1'
+                            }}>
 
-                    Follow 
-                </Button>
+                            Follow 
+                        </Button>
+                    ): ( 
+                        <GenericCircularProgress/>
+                    )}
+                </Box> 
             ): ( 
-                <Button 
-                    variant={variant}
-                    onClick={unFollowUserByUsername}
-                    endIcon={<GroupRemoveIcon/>}
-                    disabled={isRequestUser}
-                    sx={{
-                        fontSize: '12px',
-                        width: '7rem',
-                        borderRadius: '10px', 
-                        fontFamily: 'Dishesz1', 
-                        bgcolor: '#FF3333', 
-                        ":hover": {
-                            bgcolor: '#FF6666'
-                        }
-                    }}>
 
-                    UnFollow 
-                </Button>
+                <Box
+                    display="flex"
+                    width="100%"
+                 >
+
+                    {!loading ? (
+                        <Button 
+                            variant={variant}
+                            onClick={unFollowUserByUsername}
+                            endIcon={<GroupRemoveIcon/>}
+                            disabled={isRequestUser}
+                            sx={{
+                                fontSize: '12px',
+                                width: '7rem',
+                                borderRadius: '10px', 
+                                fontFamily: 'Dishesz1', 
+                                bgcolor: '#FF3333', 
+                                ":hover": {
+                                    bgcolor: '#FF6666'
+                                }
+                            }}>
+
+                            UnFollow 
+                        </Button>
+                    ): ( 
+                        <GenericCircularProgress/>
+                    )}
+                </Box> 
             )}
         </div> 
 

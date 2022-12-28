@@ -15,7 +15,7 @@ import ProfileDisplay from '../../components/users/ProfileDisplay'
 const PeopleToFollow = ({ authStatus }) => { 
 
     const [ suggestedPeople, updateSuggestedPeople ] = useState([])
-    const [ isLoading, setIsLoading ] = useState(false)
+    const [ dataLoaded, setDataLoaded ] = useState(false)
 
 
     useEffect(() => { 
@@ -26,7 +26,7 @@ const PeopleToFollow = ({ authStatus }) => {
             
             const response = await userAccount.listPeopleToFollow() 
             updateSuggestedPeople(response.data.data)
-            setIsLoading(true)
+            setDataLoaded(true)
         }
 
         _loadSuggestedPeople() 
@@ -63,7 +63,7 @@ const PeopleToFollow = ({ authStatus }) => {
 
                         
 
-                            {isLoading ? (
+                            {dataLoaded ? (
 
                             <Stack 
                                 direction="column"

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Box } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { RegularText } from '../../components/texts/GenericTexts'
 
 
@@ -12,11 +12,12 @@ const MyFeed = ({ authStatus }) => {
         <Box 
             justifyContent="center"
             alignItems="center"
-            display="flex">
+            display="flex"
+            width="70vh">
 
-                <RegularText
+               <RegularText
                     size="18px"
-                    text="My Feed"/>
+                    text="Feed Section"/>
 
         </Box>
     )

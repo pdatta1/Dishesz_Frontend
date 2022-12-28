@@ -49,10 +49,12 @@ const DisheszAppBar = ({ isAuthenticated }) => {
 
                         <Toolbar>
 
-                           <RegularText 
-                                variant="h4"
-                                text="Dishesz"
-                                color="#ffffff"/>
+                        {!isMobile() && 
+                                <RegularText 
+                                    variant="h4"
+                                    text="Dishesz"
+                                    color="#ffffff"/>
+                        }
 
                                 <Box sx={{ flexGrow: { xs: 0, md: .9}}}></Box>
 
@@ -92,10 +94,15 @@ const DisheszAppBar = ({ isAuthenticated }) => {
                             </Box> 
 
                             <Box
-                                sx={{ display: {xs: 'block', md: 'none'}}}>
+                                sx={{ 
+                                    display: {xs: 'block', md: 'none'}, 
+                                    position: "absolute", 
+                                    right: -5
+                                    }}>
 
                                 <MobileMenuButton/>
                             </Box>
+
 
                         </Toolbar>
 

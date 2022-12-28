@@ -22,7 +22,36 @@ class UserAccount extends AuthInstance{
             super() 
 
             this.error = false 
+
         }
+
+        /** 
+         *  Load User Data 
+         * 
+        */
+
+        loadUserData = async () => { 
+
+            const data = await this.getMyProfile() 
+
+            console.log('User Profile', data)
+            if(data){ 
+                localStorage.setItem('username', data.dishesz_user)
+                //localStorage.setItem('email', data.email)
+            }
+
+        }
+
+        getUsername = () => { 
+            let username = localStorage.getItem('username')
+            return username 
+        }
+
+        getEmailAddress = () => { 
+            let email = localStorage.getItem('email')
+            return email 
+        }
+         
 
         /**
          * 
@@ -80,6 +109,17 @@ class UserAccount extends AuthInstance{
             
         }
 
+        getMyProfile = async () => { 
+            const responseData = await this.authInstance.get('users/my_profile/')
+            return responseData.data.profile 
+        }
+
+
+        /**
+         * 
+         * Interestss 
+         *
+         */
 
         isInterestPicked = async () => { 
 
@@ -88,17 +128,30 @@ class UserAccount extends AuthInstance{
 
         }
 
-     
 
         getAllInterests = async () => { 
             const interests = await this.authInstance.get('users/interest_collections/')
             return interests.data.interests 
         }
 
+
         establishInterests = async ( interests ) => { 
             return await this.authInstance.post('feeds/establish_interest/', interests)
         }
 
+        /**
+         * 
+         *Saved Recipes
+
+         */
+
+         savedRecipe = async ( recipeID, action ) => { 
+            let requestData = { 
+                "recipe_id": recipeID,
+                "action": action
+            }
+            return await this.authInstance.post('recipe/save_recipe/', requestData)
+         }
 
 
          /**

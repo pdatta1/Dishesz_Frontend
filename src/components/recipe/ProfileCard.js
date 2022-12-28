@@ -10,6 +10,7 @@
 import React from 'react'
 
 import { Avatar } from '@mui/material'
+import { assignProfilePics } from '../../tests/TestFeeds'
 
 
 const ProfileCard = ({ media }) => {
@@ -21,7 +22,7 @@ const ProfileCard = ({ media }) => {
     return ( 
         <Avatar
             
-            src={media}
+            src={assignProfilePics()}
             alt='Profile'>
 
         </Avatar>

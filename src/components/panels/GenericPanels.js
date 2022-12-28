@@ -138,7 +138,7 @@ const ApproachPanel = ({ children, shadow }) => {
 }
 
 
-const SmallPanel = ({ children, shadow }) => { 
+const SmallPanel = ({ children, shadow, mdWidth }) => { 
     /**
      * 
      * @purpose 
@@ -156,10 +156,42 @@ const SmallPanel = ({ children, shadow }) => {
                 elevation={shadow}
                 sx={{
                     height: { sm: '100%', md: 'auto'}, 
-                    width: {xs: '100%', sm: '100%', md: '60vh'},
+                    width: {xs: '100%', sm: '100%', md: mdWidth},
                     justifyContent: 'center', 
                     alignItems: 'center', 
                     marginBottom: 1
+                }}>
+
+                    {children}
+
+            </Paper>
+        </Grow>
+    )
+}
+
+const ReviewPanel = ({ children, shadow, mdWidth }) => { 
+    /**
+     * 
+     * @purpose 
+     *      SmallPanel works as a generic smaller size to be used thru out the webapp
+     * 
+     * @param children displays the nested components that follows
+     * @param shadow the amount of boxshadow to be render
+     */
+    return ( 
+        <Grow 
+        in={true}
+        style={{ transformOrigin: '0 0 0'}}
+        {...(true ? { timeout: 1000} : {} )}>
+            <Paper 
+                elevation={shadow}
+                sx={{
+                    height: { sm: '100%', md: '50vh'}, 
+                    width: {xs: '100%', sm: '100%', md: mdWidth},
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    marginBottom: 1,
+                    overflow: 'auto',
                 }}>
 
                     {children}
@@ -201,35 +233,6 @@ const AuthForm = ({ children }) => {
 }
 
 
-const ReviewPanel = ({ children, shadow }) => { 
-    /**
-     * 
-     * @purpose 
-     *      SmallPanel works as a generic smaller size to be used thru out the webapp
-     * 
-     * @param children displays the nested components that follows
-     * @param shadow the amount of boxshadow to be render
-     */
-    return ( 
-        <Grow 
-        in={true}
-        style={{ transformOrigin: '0 0 0'}}
-        {...(true ? { timeout: 1000} : {} )}>
-            <Paper 
-                elevation={shadow}
-                sx={{
-                    height: { sm: '100%', md: 'auto'}, 
-                    width: {xs: '100%', sm: '100%', md: '80vh'},
-                    justifyContent: 'center', 
-                    alignItems: 'center'
-                }}>
-
-                    {children}
-
-            </Paper>
-        </Grow>
-    )
-}
 
 
 

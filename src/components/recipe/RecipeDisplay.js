@@ -11,9 +11,9 @@
 
 import React, { useState } from 'react'
 
-import {Box, Stack } from '@mui/material'
+import {Box, setRef, Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
-import { RegularChip, RegularContent, RegularText } from '../texts/GenericTexts'
+import { ClickableChip, NavigateChip, RegularChip, RegularContent, RegularText } from '../texts/GenericTexts'
 
 import { PhotoGallery } from './RecipePhoto'
 import { ViewMoreButton } from '../buttons/Buttons'
@@ -21,10 +21,14 @@ import RecipeDetails from './RecipeDetail'
 import RecipeDisplayTower from './RecipeDisplayTower'
 import RecipeSaved from './RecipeSaved'
 import LeaveReviews from './LeaveReviews'
+import UserAccount from '../../session/UserAccount'
+import ExploreFeedApi from '../../session/ExploreFeedApi'
+import { assignProfilePics, assignTestRecipePhotos } from '../../tests/TestFeeds'
+import { Link } from 'react-router-dom'
 
 
 
-const RecipeDisplay = ({ recipeData }) => { 
+const RecipeDisplay = ({ recipeData, lookupHandler, isAuthenticated }) => { 
     /**
      * 
      * @purpose Display the Recipe Card 
@@ -39,12 +43,31 @@ const RecipeDisplay = ({ recipeData }) => {
 
     //console.log('Recipe Data', recipeData)
 
+    const userFeed = new ExploreFeedApi() 
+    const userAccount = new UserAccount() 
+
     const [ detailStatus, setDetailStatus ] = useState(false)
+    const [ recipe, setRecipe ] = useState(recipeData)
+    const [ savedStatus, setSavedStatus ] = useState(false)
+
+
+    const refreshRecipeData = async () => { 
+        const data = await userFeed.getRecipe(recipeData.id)
+        const profile = await userAccount.getMyProfile() 
+
+        data.saved_recipes.map(( user ) => { 
+            if ( user.user == profile.dishesz_user){ 
+                setSavedStatus(true)
+            }
+        })
+        setRecipe(data)
+    }
+
 
     const trunateRecipeDescription = () => { 
         
-        if(recipeData.recipe_description){ 
-            let description = recipeData.recipe_description
+        if(recipe.recipe_description){ 
+            let description = recipe.recipe_description
             let trunateWords = description.split(' ').slice(0, 30).join(' ')
             return trunateWords + '.....'
         }
@@ -53,7 +76,6 @@ const RecipeDisplay = ({ recipeData }) => {
     const recipeDetailHandler = () => { 
         setDetailStatus(!detailStatus)
     }
-
 
 
     
@@ -70,7 +92,8 @@ const RecipeDisplay = ({ recipeData }) => {
                 >
 
                         <SmallPanel
-                            shadow={4}>
+                            shadow={4}
+                            mdWidth="70vh">
                                 
 
                                 <Stack 
@@ -82,8 +105,11 @@ const RecipeDisplay = ({ recipeData }) => {
                                     display="flex">
 
                                    <RecipeDisplayTower
-                                        profile_pic={recipeData.profile_pic}
-                                        author={recipeData.author}/>
+                                        profile_pic={recipe.profile_pic} /* need changing */
+                                        author={recipe.author}
+                                        authStatus={isAuthenticated}
+                                        refresh={refreshRecipeData}
+                                        />
 
                                    
 
@@ -104,11 +130,14 @@ const RecipeDisplay = ({ recipeData }) => {
 
                                                 <RegularText
                                                     size="15px"
-                                                    text={recipeData.recipe_name}/>
+                                                    text={recipe.recipe_name}/>
 
-                                                <RegularChip
+                                                <ClickableChip
                                                     indicator="secondary"
-                                                text={recipeData.category}/>
+                                                    text={recipe.category}
+                                                    onPress={ () => { 
+                                                        lookupHandler(recipe.category)
+                                                    }}/>
 
                                                 
                                             </Stack>
@@ -150,25 +179,44 @@ const RecipeDisplay = ({ recipeData }) => {
                                         justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
                                         alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
+                                            
                                             <PhotoGallery
-                                                photoList={recipeData.photos}/>
+                                                photoList={assignTestRecipePhotos()}/>
                                     </Stack>
 
-                                    <Stack 
-                                        direction="row"
-                                        spacing={5}
-                                        display="flex"
-                                        justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
-                                        alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
+                                        <Stack 
+                                            direction="row"
+                                            spacing={5}
+                                            display="flex"
+                                            justifyContent={{xs: "center", sm: "center", md: "flex-start"}}
+                                            alignItems={{xs: "center", sm: "center", md: "flex-start"}}>
 
-                                        
-                                        <RecipeSaved
-                                            saves={recipeData.saved_recipes}/>   
+                                            
+                                            <RecipeSaved
+                                                saves={recipe.saved_recipes}
+                                                recipeID={recipe.id}
+                                                authStatus={isAuthenticated}
+                                                savedStatus={savedStatus}
+                                                refresh={refreshRecipeData}
+                                                />   
 
-                                        <LeaveReviews
-                                            reviews={recipeData.recipe_reviews}/>   
+                                            <LeaveReviews
+                                                identifier_name={recipeData.recipe_name}
+                                                identifier={recipeData.id}
+                                                reviews={recipe.recipe_reviews}
+                                                authStatus={isAuthenticated}
+                                                refresh={refreshRecipeData}/>   
 
-                                    </Stack>
+                                            
+                                            {!isAuthenticated && 
+                                                <NavigateChip
+                                                    text="Login to like or leave review"
+                                                    component={Link}
+                                                    to={"/login"}
+                                                />
+                                            }
+
+                                        </Stack>
                                     
 
                                 </Stack>
@@ -177,8 +225,10 @@ const RecipeDisplay = ({ recipeData }) => {
 
                     <RecipeDetails
                         status={detailStatus}
+                        authStatus={isAuthenticated}
                         handler={recipeDetailHandler}
-                        data={recipeData}/>
+                        refresh={refreshRecipeData}
+                        data={recipe}/>
 
             </Box>
         

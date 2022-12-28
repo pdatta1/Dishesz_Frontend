@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { Box, Card, Checkbox, FormControlLabel, FormGroup, Grid, Stack } from '@mui/material'
+import { Box, Card, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, Stack } from '@mui/material'
 import { FeedPanel, SmallPanel } from '../../components/panels/GenericPanels'
 import { RegularText } from '../../components/texts/GenericTexts'
-import { GenericButton, GenericLinkButton, SubmitButton } from '../../components/buttons/Buttons'
+import { GenericButton, GenericLinkButton, LogoutButton, SubmitButton } from '../../components/buttons/Buttons'
 
 import { Link } from 'react-router-dom'
 
@@ -64,14 +64,28 @@ const EstablishInterests = () => {
                                     justifyContent="center"
                                     alignItems="center">
 
+                                    
+                                    <Box 
+                                        sx={{ display: 'flex'}}>
+                                            <CircularProgress/>
+                                    </Box>
+
+
                                     <RegularText
                                         size="14px"
-                                        text="Error Loading Interests"
+                                        text="Loading Data......"
+                                        color="#ff3333"/>
+
+                                    <RegularText
+                                        size="14px"
+                                        text="Refresh if taking too long"
                                         color="#ff3333"/>
 
                                     <GenericButton
                                         text="Reload"
                                         onPress={loadInterestCollections}/>
+                                    
+                                    <LogoutButton/>
 
                                 </Stack>
                             )}

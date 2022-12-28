@@ -9,8 +9,8 @@ const UserProfilePic = ({ media }) => {
             src={media}
             alt="profile pic"
             sx={{ 
-                width: '200px',
-                height: '200px'
+                width: '100px',
+                height: '100px'
             }}
             >
 

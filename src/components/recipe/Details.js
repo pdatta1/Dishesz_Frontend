@@ -13,7 +13,8 @@ const Details = ({ data }) => {
 
     return ( 
             <SmallPanel
-                shadow={5}>
+                shadow={5}
+                mdWidth="70vh">
                 
                 <Stack 
                     mt={-3}

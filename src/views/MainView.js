@@ -55,6 +55,7 @@ const MainView = () => {
 
             if( authStatus ){
                 const response = await userAccount.isInterestPicked()
+                await userAccount.loadUserData() 
                 setInterestPicked(response)
             }
         }
@@ -62,6 +63,7 @@ const MainView = () => {
         const _loadApplicationComponents = async () => { 
 
             await checkProfileStatus() 
+            
         }
 
         _loadApplicationComponents() 

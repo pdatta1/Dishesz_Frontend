@@ -14,7 +14,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 
-const ProfileLink = ({ username, onPress }) => { 
+const ProfileLink = ({ username, onPress, allowViewed }) => { 
 
     /**
      * 
@@ -31,11 +31,14 @@ const ProfileLink = ({ username, onPress }) => {
         <Button 
             variant="text"
             onClick={onPress}
+            disabled={!allowViewed}
             sx={{
                 fontSize: '12px',
                 width: '1rem',
                 borderRadius: '10px', 
-                fontFamily: 'Dishesz1'
+                fontFamily: 'Dishesz1', 
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start'
             }}>
 
             {username}

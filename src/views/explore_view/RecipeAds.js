@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { Box, Stack } from '@mui/material'
-import { ApproachPanel } from '../../components/panels/GenericPanels'
+import { Box, Card, Stack } from '@mui/material'
+import { ApproachPanel, SmallPanel } from '../../components/panels/GenericPanels'
 
 
 import { RegularText } from '../../components/texts/GenericTexts'
@@ -31,9 +31,25 @@ const RecipeAdsView = () => {
                             justifyContent="center"
                             alignItems="center">
 
-                            <RegularText
-                                size="12px"
-                                text="Recipe Ads View"/>
+                            {[1,2,3,4,5,6,7,8,9,10,11,12,13].map((card) => ( 
+
+                                <Card
+                                    key={card}
+                                    sx={{ 
+                                        height: '5rem',
+                                        width: '100%'
+                                    }}>
+                                    <RegularText
+                                        size="14px"
+                                        text="Recipe Ad Sample"/>
+
+                                    <RegularText
+                                        size="14px"
+                                        text="Recipe Ad"/>
+
+                                </Card>
+                            ))}
+                          
                                 
                         </Stack>
                 </ApproachPanel>

@@ -16,7 +16,7 @@ import Ingredients from './Ingredients'
 import Details from './Details'
 import { ReviewSection } from './Reviews'
 
-const RecipeDetails = ({ status, handler, data }) => { 
+const RecipeDetails = ({ status, handler, data, authStatus, refresh }) => { 
 
 
     return ( 
@@ -39,6 +39,7 @@ const RecipeDetails = ({ status, handler, data }) => {
 
                         <RegularText
                             size="15px"
+                            color="#ffffff"
                             text={data.recipe_name}/>
 
                         
@@ -66,7 +67,10 @@ const RecipeDetails = ({ status, handler, data }) => {
                                 data={data.ingredients}/>
 
                             <ReviewSection
-                                reviews={data.recipe_reviews}/>
+                                authStatus={authStatus}
+                                fitment="full"
+                                reviews={data.recipe_reviews}
+                                refresh={refresh}/>
 
                         </Stack>
                     </Box>

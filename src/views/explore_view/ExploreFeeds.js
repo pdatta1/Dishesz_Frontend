@@ -17,6 +17,7 @@ import { Box, Stack, Skeleton, Chip, IconButton } from '@mui/material'
 import { FeedPanel } from '../../components/panels/GenericPanels'
 import ExploreFeedApi from '../../session/ExploreFeedApi'
 import RecipeDisplay from '../../components/recipe/RecipeDisplay'
+import ProfileDisplay from '../../components/users/ProfileDisplay'
 
 import InFiniteScroll from 'react-infinite-scroll-component'
 
@@ -27,7 +28,7 @@ import GetAppIcon from '@mui/icons-material/GetApp'
 
 
 
-const ExploreFeeds = () => { 
+const ExploreFeeds = ({ isAuthenticated }) => { 
     /**
      * @purpose This Class Pull Data from the backend Api and displays it on the appropriate components
      * 
@@ -41,16 +42,19 @@ const ExploreFeeds = () => {
      *              Loads the @_loadExploreFeed method before Webapp UI updates
      */
 
+    const feedApi = new ExploreFeedApi() 
+
     const [ feedContainer, updateFeedContainer ] = useState([])
     
     const [ feedCount, updateFeedCount ] = useState(1)
     const [ feedLoading, setFeedLoading ] = useState(false)
+    const [ lookedUp, setLookedUp ] = useState(false)
+
 
 
     //console.log('Feed Container', feedContainer)
     const _refreshExploreFeeds = async () => { 
 
-        const feedApi = new ExploreFeedApi() 
 
 
         setFeedLoading(true)
@@ -64,10 +68,21 @@ const ExploreFeeds = () => {
 
     }
 
+    const _lookupHandler = async ( interestName ) => { 
+
+        const feedData = await feedApi.lookupRecipeByInterest(interestName)
+        if(feedData){ 
+            updateFeedContainer(feedData)
+            updateFeedCount((prev) => prev + 1)
+            setFeedLoading(false)
+            setLookedUp(true)
+        }
+
+    }
+
+
+
     const _loadExploreFeeds = async () => { 
-
-        const feedApi = new ExploreFeedApi() 
-
 
         setFeedLoading(true)
         const feedData = await feedApi.getExploreFeeds(feedCount)
@@ -102,8 +117,9 @@ const ExploreFeeds = () => {
     
 
     useEffect(() => {
+
         
-            _loadExploreFeeds() 
+        _loadExploreFeeds() 
 
 
     }, [])
@@ -135,36 +151,70 @@ const ExploreFeeds = () => {
                 <FeedPanel
                     shadow={0}>
 
-                    <InFiniteScroll
-                        dataLength={feedContainer.length}
-                        next={_loadExploreFeeds}
-                        hasMore={true}
-                        loader={feedLoader()}
-                        refreshFunction={_refreshExploreFeeds}
-                        pullDownToRefresh
-                        pullDownToRefreshThreshold={50}
-                        height='85vh'>
+                    {!lookedUp ? (
+                        <InFiniteScroll
+                            dataLength={feedContainer.length}
+                            next={_loadExploreFeeds}
+                            hasMore={true}
+                            loader={feedLoader()}
+                            refreshFunction={_refreshExploreFeeds}
+                            pullDownToRefresh
+                            pullDownToRefreshThreshold={50}
+                            height='85vh'>
 
-                            <Stack 
-                                direction="column"
-                                spacing={2}
-                                justifyContent="center"
-                                alignItems="center"
-                                
-                                sx={{
-                                    overflow: 'auto',
-                                }}>
-
+                                <Stack 
+                                    direction="column"
+                                    spacing={2}
+                                    justifyContent="center"
+                                    alignItems="center"
                                     
-                                    {feedContainer.map((recipe, key) => (
+                                    sx={{
+                                        overflow: 'auto',
+                                    }}>
 
-                                        <RecipeDisplay
-                                            key={key}
-                                            recipeData={recipe}/>
-                                    ))}
-                            </Stack>
+                                        
+                                        {feedContainer.map((recipe, key) => (
 
-                    </InFiniteScroll> 
+                                            <RecipeDisplay
+                                                key={key}
+                                                recipeData={recipe}
+                                                isAuthenticated={isAuthenticated}
+                                                lookupHandler={_lookupHandler}
+                                                />
+                                        ))}
+                                </Stack>
+
+                        </InFiniteScroll> 
+                    ): ( 
+
+                       
+                           
+
+                        <Stack 
+                            direction="column"
+                            spacing={2}
+                            justifyContent="center"
+                            alignItems="center"
+
+                            sx={{
+                                overflow: 'auto',
+                            }}>
+
+                            
+                            {feedContainer.map((recipe, key) => (
+
+                                <RecipeDisplay
+                                    key={key}
+                                    recipeData={recipe}
+                                    isAuthenticated={isAuthenticated}
+                                    lookupHandler={_lookupHandler}
+                                    />
+                            ))}
+                        </Stack>
+
+                               
+                               
+                    )}
 
                 </FeedPanel>
             </Stack>

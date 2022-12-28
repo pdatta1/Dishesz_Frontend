@@ -50,18 +50,20 @@ const ExploreView = () => {
 
                 <Stack
                     direction={{xs: "column", sm:"column", md: "row"}}
-                    spacing={4}
+                    spacing={{ xs: 0, md: 4}}
                     display="flex"
                     justifyContent="center"
                     alignItems="center">
 
                         
                         <RecipeAdsView/>
-                        <ExploreFeeds/>
+                        <ExploreFeeds
+                            isAuthenticated={authStatus}/>
                         {!authStatus ? (
                             <ApproachView/>
                         ): (
-                            <PeopleToFollow/>
+                            <PeopleToFollow
+                                authStatus={authStatus}/>
                         )
                         }
 

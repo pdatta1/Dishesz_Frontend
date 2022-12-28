@@ -8,11 +8,14 @@ import { Transition } from '../../utils/Transitions'
 
 import CloseIcon from '@mui/icons-material/Close'
 import { RegularText } from '../texts/GenericTexts'
-import UserProfilePic from './leftview/UserProfilePic'
+
+
+import UserProfile from './leftview/LeftContainer'
+import UserProfileInfo from './rightview/RightContainer'
 
 
 
-const ViewProfile = ({ status, handler, profileData }) => { 
+const ViewProfile = ({ status, handler, profileData, authStatus, refreshHandler }) => { 
 
     if(profileData){
         return ( 
@@ -59,13 +62,20 @@ const ViewProfile = ({ status, handler, profileData }) => {
                             display="flex"> 
 
                             <Stack
-                                direction="row"
-                                spacing={5}
+                                direction={{xs: 'column', md: "row"}}
+                                spacing={{ xs: 2, md: 5}}
                                 justifyContent="center"
                                 alignItems="center"
                                 display="flex">
 
-                                    
+                                    <UserProfile
+                                        userData={profileData}
+                                        refresh={refreshHandler}
+                                        authStatus={authStatus}/> 
+
+                                    <UserProfileInfo
+                                        authStatus={authStatus}
+                                        userData={profileData}/>
                                     
                             </Stack>
                         

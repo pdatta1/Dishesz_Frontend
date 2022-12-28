@@ -1,27 +1,50 @@
 import React from 'react'
 
-import { Stack } from '@mui/material'
-import { SmallPanel } from '../panels/GenericPanels'
+import { Divider, Rating, Stack } from '@mui/material'
+import { ReviewPanel, SmallPanel } from '../panels/GenericPanels'
 import RecipeDisplayTower from './RecipeDisplayTower'
 import { RegularText } from '../texts/GenericTexts'
 import Ratings from './Ratings'
 
 
-const ReviewSection = ({ reviews }) => { 
+const ReviewSection = ({ reviews, fitment, refresh, authStatus }) => { 
 
     const isReviewsValid = () => { 
-        if(reviews && !reviews.length === 0){
+        if(!reviews.length == 0){
             return true 
         }
 
         return false 
     }
 
+    const checkFitment = () => { 
+        if(fitment == 'full'){ 
+            return '100vh'
+        }
+
+        if(fitment == 'mid'){ 
+            return '50%'
+        }
+    }
+
+    const checkShadow = () => { 
+        if(fitment == 'full'){ 
+            return 5
+        }
+
+        if(fitment == 'mid'){ 
+            return 0
+        }
+    }
+
+
+
     //console.log('Reviews', reviews)
 
     return ( 
-        <SmallPanel
-            shadow={5}>
+        <ReviewPanel
+            shadow={checkShadow()}
+            mdWidth={checkFitment()}>
 
                 <Stack
                     direction="column"
@@ -39,16 +62,33 @@ const ReviewSection = ({ reviews }) => {
                             direction="column"
                             spacing={1}
                             justifyContent="flex-start"
-                            alignItems="flex-start">
+                            alignItems="flex-start"
+                            width="100%">
 
                                 {reviews.map(( review, key) => ( 
 
-                                    <SmallPanel
+                                    <Stack
                                         key={key}
-                                        shadow={1}>
-                                        <Review
-                                            review={review}/>
-                                    </SmallPanel>
+                                        direction="column"
+                                        justifyContent="flex-start"
+                                        alignItems="flex-start"
+                                        display="flex"
+                                        width="100%">
+
+                                        
+                                            <Review
+                                                review={review}
+                                                authStatus={authStatus}
+                                                refresh={refresh}/>
+
+                                        <Divider
+                                            variant="middle"
+                                            sx={{
+                                                background: '#E5E4E2',
+                                                width: '100%'
+                                            }}/>
+                                    </Stack>
+
 
                                 ))}
                         </Stack>
@@ -68,31 +108,37 @@ const ReviewSection = ({ reviews }) => {
 
                 </Stack>
 
-        </SmallPanel>
+        </ReviewPanel>
     )
 }
 
 
-const Review = ( review ) => { 
+const Review = ({ review, refresh, authStatus }) => { 
 
-    console.log('Review', review.review.author) 
+    console.log('Review', review.author) 
 
     return ( 
         <Stack 
             direction="column"
-            spacing={0}
+            spacing={1}
             justifyContent="flex-start"
-            alignItems="flex-start">
+            alignItems="flex-start"
+            ml={1}
+            mb={2}>
 
                 <RecipeDisplayTower
-                    profile_pic={review.review.profile_pic}
-                    author={review.review.author}/>
+                    profile_pic={review.profile_pic}
+                    author={review.author}
+                    authStatus={authStatus}
+                    refresh={refresh}/>
 
-                <Ratings
-                    rating={review.review.rating}/>
+                <Rating
+                    name="Recipe Ratings"
+                    readOnly
+                    value={review.rating}/>
 
                 <RegularText
-                    text={review.review.description}
+                    text={review.description}
                     size="12px"/>
 
         </Stack>

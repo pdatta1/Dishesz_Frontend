@@ -34,6 +34,35 @@ class ExploreFeedApi extends AuthInstance{
         return randomized_feeds
 
     }
+
+    getRecipe = async ( recipeID ) => { 
+
+        const responseData = await this.authInstance.get(`recipe/view_recipes/${recipeID}/`)
+        return responseData.data 
+
+    }
+
+    leaveReview = async ( reviewData ) => { 
+
+        const requestData = await this.authInstance.post('recipe/create_review/', reviewData)
+        return requestData.data.message 
+        
+    }
+
+    lookupRecipeByInterest = async ( interestName ) => { 
+
+        const responseData = await this.authInstance.get(`recipe/interest_lookup/?interest_name=${interestName}`)
+        return responseData.data.recipes 
+        
+    }
+
+    genericSearch = async ( searchQuery ) => { 
+        
+        const responseData = await this.authInstance.get(`feeds/generic_lookup/?search_query=${searchQuery}`)
+        return responseData.data 
+        
+    }
+
 }
 
 export default ExploreFeedApi

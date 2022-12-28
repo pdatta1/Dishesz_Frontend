@@ -12,7 +12,7 @@ import UserAccount from '../../session/UserAccount'
 import ProfileDisplay from '../../components/users/ProfileDisplay'
 
 
-const PeopleToFollow = () => { 
+const PeopleToFollow = ({ authStatus }) => { 
 
     const [ suggestedPeople, updateSuggestedPeople ] = useState([])
     const [ isLoading, setIsLoading ] = useState(false)
@@ -76,7 +76,8 @@ const PeopleToFollow = () => {
 
                                     <ProfileDisplay
                                         key={key}
-                                        data={people}/>
+                                        data={people}
+                                        authStatus={authStatus}/>
                                         
                                 ))}
                             </Stack>

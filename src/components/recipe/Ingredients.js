@@ -1,13 +1,21 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Stack } from '@mui/material'
 import { SmallPanel } from '../panels/GenericPanels'
-import { RegularText, RegularChip } from '../texts/GenericTexts'
+import { RegularText, RegularChip, ClickableChip } from '../texts/GenericTexts'
 import { IngredientLinkButton } from '../buttons/Buttons'
+import AvailableAt from './AvailableAt'
 
 
 const Ingredients = ({ data }) => { 
+
+    const [ availableAtStatus, setAvailableAtStatus ] = useState(false)
+    const [ currentIngredient, setCurrentIngredient ] = useState([])
+
+    const handleAvailableAtDialog = () => { 
+        setAvailableAtStatus(!availableAtStatus)
+    }
 
     return ( 
         <SmallPanel
@@ -49,41 +57,17 @@ const Ingredients = ({ data }) => {
                             
                             >
 
-                            <RegularChip
+                            <ClickableChip
                                 indicator="primary"
-                                text={ingredient.ingredient}/>
+                                text={ingredient.ingredient}
+                                onPress={() => { 
+                                    handleAvailableAtDialog()
+                                    setCurrentIngredient(ingredient.available_at)
+                                }}/>
 
-                            <RegularText    
-                                size="12px"
-                                text="Available At"/>
 
-                        
+
                             
-
-                                {ingredient.available_at.map((location, key) => ( 
-                                    
-                                    
-                                        <Stack 
-                                            key={key}
-                                            direction="column"
-                                            spacing={1}
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            
-                                        >
-                                            
-                                            <IngredientLinkButton
-                                                text={location.store_name}
-                                                link={location.store_link}/>
-
-                                            <RegularChip
-                                                indicator="secondary"
-                                                text={`$ ${location.store_price}`}/>
-
-                                        </Stack>
-
-
-                                ))}
 
                         </Stack>
                     
@@ -93,6 +77,12 @@ const Ingredients = ({ data }) => {
                 </Stack>
 
             </Stack>
+
+          
+            <AvailableAt
+                status={availableAtStatus}
+                handler={handleAvailableAtDialog}
+                data={currentIngredient}/>
 
     </SmallPanel>
     )

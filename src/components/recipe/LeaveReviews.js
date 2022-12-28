@@ -1,16 +1,24 @@
 
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import Stack from '@mui/material/Stack'
 import { RegularChip, RegularText } from '../texts/GenericTexts'
 
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
-import { FormControlLabel, FormGroup, IconButton } from '@mui/material'
-import { Box } from '@mui/system'
+import { FormControlLabel, FormGroup, IconButton, Checkbox } from '@mui/material'
+import { Box } from '@mui/material'
+import LeaveReviewDialog from './LeaveReviewDialog'
 
 
-const LeaveReviews = ({ reviews }) => { 
+const LeaveReviews = ({ identifier, identifier_name, reviews, authStatus, refresh }) => { 
+
+
+    const [ leaveReviewStatus, setLeaveReviewStatus ] = useState(false)
+
+    const handleLeaveReviewDialog = () => { 
+        setLeaveReviewStatus(!leaveReviewStatus)
+    }
 
     const getReviewsCount= () => { 
         return reviews.length
@@ -22,20 +30,51 @@ const LeaveReviews = ({ reviews }) => {
         sx={{
             marginTop: 5
         }}>
-            <FormGroup>
-                
-                <FormControlLabel
-                    control={
-                    <IconButton
-                        aria-label="reviews"
-                        size="small">
+            <form>
+                {authStatus ? (
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                label={getReviewsCount()}
+                                icon={<ChatBubbleOutlineIcon/>}
+                                checkedIcon={<ChatBubbleOutlineIcon/>}
+                                onClick={handleLeaveReviewDialog}
+                                />
+                            }
+                        label={getReviewsCount()}
+                    >
 
-                        <ChatBubbleOutlineIcon/>
+                    </FormControlLabel>
+                </FormGroup>
+                ): ( 
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    label={getReviewsCount()}
+                                    icon={<ChatBubbleOutlineIcon/>}
+                                    checkedIcon={<ChatBubbleOutlineIcon/>}
+                                    disabled
+                                    />
+                                }
+                            label={getReviewsCount()}
+                        >
 
-                    </IconButton>
-                    }
-                    label={getReviewsCount()}/>
-            </FormGroup>
+                        </FormControlLabel>
+                    </FormGroup>
+                )}
+            </form>
+
+            <LeaveReviewDialog
+                status={leaveReviewStatus}
+                handler={handleLeaveReviewDialog}
+                data={reviews}
+                identifier={identifier}
+                identifier_name={identifier_name}
+                authStatus={authStatus}
+                refresh={refresh}/>
+
         </Box>
 
     )

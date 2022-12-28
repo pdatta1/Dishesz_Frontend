@@ -6,7 +6,7 @@
  * 
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton, Button } from '@mui/material'
 
@@ -71,59 +71,109 @@ const GenericButton = ({ text, onPress, component, to, variant }) => {
 }
 
 
-const FollowButton = ({ text, onPress, variant }) => { 
+const FollowButton = ({ followed, variant, username, refresh }) => { 
     /**
-     * @purpose generic webapp button
+     * @purpose generic follow button 
+     *          when click, it follows a user by username,
+     *          checks whether a user is followed or not and display appropriate ui
      * @param text: text to be display on button
-     * @param onPress: button click event handler
+     * @param username: username to follow
      */
+    const userAccount = new UserAccount() 
+
+    const [ isFollowed, setIsFollowed ] = useState(followed)
+    const [ isRequestUser, setIsRequestUser ] = useState(false)
+
+    const followUserByUsername = async () => { 
+        await userAccount.follow(username)
+        await refresh() 
+        setIsFollowed(true)
+    }
+
+    const unFollowUserByUsername = async () => { 
+        await userAccount.unFollow(username)
+        await refresh() 
+        setIsFollowed(false)
+    }
+
+
+    useEffect(() => { 
+
+        const isUserFollowing = async () => { 
+
+            // get following array from api
+            const followings = await userAccount.getFollowings() 
+
+            // if following data exists, map and compare element to username, if equals, set isFollowed hook
+            if(followings.data.followings){ 
+                const followingsData = followings.data.followings 
+                followingsData.map(( following ) => { 
+                    if( following.user_follow && following.user_follow == username ){ 
+                        setIsFollowed(true)
+                        return 
+                    }
+                })
+            }
+        }
+
+        const avoidUserFollowingSelf = () => { 
+
+            const currentUsername =userAccount.getUsername() 
+            if( username == currentUsername){ 
+                setIsRequestUser(true)
+            }
+
+        }
+
+        isUserFollowing() 
+        avoidUserFollowingSelf() 
+
+    }, [isFollowed, followed, isRequestUser])
 
     return ( 
-        <Button 
-            variant={variant}
-            onClick={onPress}
-            endIcon={<GroupAddIcon/>}
-            sx={{
-                fontSize: '12px',
-                width: '7rem',
-                borderRadius: '10px', 
-                fontFamily: 'Dishesz1'
-            }}>
 
-            {text}
-        </Button>
+        <div>
+            {!isFollowed ? (
+                <Button 
+                    variant={variant}
+                    onClick={followUserByUsername}
+                    endIcon={<GroupAddIcon/>}
+                    disabled={isRequestUser}
+                    sx={{
+                        fontSize: '12px',
+                        width: '7rem',
+                        borderRadius: '10px', 
+                        fontFamily: 'Dishesz1'
+                    }}>
+
+                    Follow 
+                </Button>
+            ): ( 
+                <Button 
+                    variant={variant}
+                    onClick={unFollowUserByUsername}
+                    endIcon={<GroupRemoveIcon/>}
+                    disabled={isRequestUser}
+                    sx={{
+                        fontSize: '12px',
+                        width: '7rem',
+                        borderRadius: '10px', 
+                        fontFamily: 'Dishesz1', 
+                        bgcolor: '#FF3333', 
+                        ":hover": {
+                            bgcolor: '#FF6666'
+                        }
+                    }}>
+
+                    UnFollow 
+                </Button>
+            )}
+        </div> 
 
     )
 }
 
-const UnFollowButton = ({ text, onPress, variant }) => { 
-    /**
-     * @purpose generic webapp button
-     * @param text: text to be display on button
-     * @param onPress: button click event handler
-     */
 
-    return ( 
-        <Button 
-            variant={variant}
-            onClick={onPress}
-            endIcon={<GroupRemoveIcon/>}
-            sx={{
-                fontSize: '12px',
-                width: '7rem',
-                borderRadius: '10px', 
-                fontFamily: 'Dishesz1', 
-                bgcolor: '#FF3333', 
-                ":hover": {
-                    bgcolor: '#FF6666'
-                }
-            }}>
-
-            {text}
-        </Button>
-
-    )
-}
 
 const SubmitButton = ({ text, onPress, variant, disabled }) => { 
     /**
@@ -131,6 +181,8 @@ const SubmitButton = ({ text, onPress, variant, disabled }) => {
      * @param text: text to be display on button
      * @param onPress: button click event handler
      */
+
+    console.log('Submit Enabled? ', disabled)
 
     return ( 
         <Button 
@@ -168,7 +220,9 @@ const ViewMoreButton = ({ text, onPress, component, to, variant }) => {
                 fontSize: '12px',
                 width: '7rem',
                 borderRadius: '10px', 
-                fontFamily: 'Dishesz1'
+                fontFamily: 'Dishesz1',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start'
             }}>
 
             {text}
@@ -252,7 +306,6 @@ export {
     IngredientLinkButton,
     SubmitButton,
     FollowButton,
-    UnFollowButton,
     LogoutButton,
 }
 

@@ -79,9 +79,43 @@ const RegularChip = ({ text, indicator }) => {
 }
 
 
+const ClickableChip = ({ text, indicator, onPress }) => { 
+
+    return ( 
+        <Chip 
+            variant="outlined"
+            size="lg"
+            label={text}
+            color={indicator}
+            onClick={onPress}
+            sx={{
+                fontSize: '.8rem'
+            }}/>
+    )
+}
+
+const NavigateChip = ({ text, indicator, onPress, to, component }) => { 
+
+    return ( 
+        <Chip 
+            variant="outlined"
+            size="lg"
+            label={text}
+            color={indicator}
+            onClick={onPress}
+            component={component}
+            to={to}
+            clickable
+            sx={{
+                fontSize: '.8rem'
+            }}/>
+    )
+}
 
 export { 
     RegularText, 
     RegularChip,
     RegularContent,
+    ClickableChip,
+    NavigateChip,
 }

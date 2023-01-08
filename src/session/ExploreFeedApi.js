@@ -35,6 +35,17 @@ class ExploreFeedApi extends AuthInstance{
 
     }
 
+    getUserFeeds = async ( page_count ) => { 
+
+        const responseData = await this.authInstance.get(`feeds/user_feeds/?page=${page_count}`)
+        const feeds = responseData.data.results 
+
+        if ( feeds ){ 
+            return feeds 
+        }
+        
+    }
+
     getRecipe = async ( recipeID ) => { 
 
         const responseData = await this.authInstance.get(`recipe/view_recipes/${recipeID}/`)
@@ -61,6 +72,12 @@ class ExploreFeedApi extends AuthInstance{
         const responseData = await this.authInstance.get(`feeds/generic_lookup/?search_query=${searchQuery}`)
         return responseData.data 
         
+    }
+
+    getAllCategories = async () => { 
+        
+        const responseData = await this.authInstance.get('recipe/all_categories/')
+        return responseData.data 
     }
 
 }

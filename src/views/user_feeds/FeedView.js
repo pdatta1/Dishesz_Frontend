@@ -2,14 +2,32 @@
 
 
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Stack } from '@mui/material'
-import { RegularText } from '../../components/texts/GenericTexts'
 import MyFeed from './MyFeed'
+import UserAccount from '../../session/UserAccount'
 
 
-const FeedView = ({ authStatus }) => { 
+import ActionView from './ActionView'
+
+
+const FeedView = () => { 
+
+    const [ authStatus, setAuthStatus ] = useState(false)
+
+    useEffect(() => { 
+
+        const checkAuth = setInterval(() => { 
+
+            const userAccount = new UserAccount() 
+            const isAuth = userAccount.isAuthenticated() 
+            setAuthStatus(isAuth)
+
+        }, 10)
+
+        return () => clearInterval(checkAuth)
+    })
 
     return ( 
         <Box 
@@ -18,15 +36,19 @@ const FeedView = ({ authStatus }) => {
             display="flex"
             width="100%">
 
-               <Stack 
-                    direction={{ xs: "column", md: "row"}}
-                    spacing={3}
+                <Stack
+                    direction={{xs: "column", sm:"column", md: "row"}}
+                    spacing={{ xs: 0, md: 4}}
+                    display="flex"
                     justifyContent="center"
-                    alignItems="center"
-                    display="flex">
+                    alignItems="center">
 
                         <MyFeed
                             authStatus={authStatus}/>
+
+                        <ActionView
+                            authStatus={authStatus}/>
+                        
 
                 </Stack>
 

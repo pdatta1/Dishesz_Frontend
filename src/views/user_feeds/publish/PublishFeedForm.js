@@ -35,21 +35,21 @@ const marks = [
 
 
 
-const PublishFeedForm = ({ handler }) => { 
+const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => { 
 
     const exploreApi = new ExploreFeedApi() 
+    const savedData = JSON.parse(localStorage.getItem('formData'))
 
-    const [ cookTime, setCookTime ] = useState(5)
-    const [ prepTime, setPrepTime ] = useState(5)
-    const [ recipeName, setRecipeName ] = useState("")
-    const [ recipeDescription, setRecipeDescription ] = useState("")
-    const [ recipeDirections, setRecipeDirections ] = useState("")
+    const [ cookTime, setCookTime ] = useState(savedData.cookTime)
+    const [ prepTime, setPrepTime ] = useState(savedData.prepTime)
+    const [ recipeName, setRecipeName ] = useState(savedData.recipeName)
+    const [ recipeDescription, setRecipeDescription ] = useState(savedData.recipeDescription)
+    const [ recipeDirections, setRecipeDirections ] = useState(savedData.recipeDirections)
 
     const [ categories, setCategories ] = useState([])
-    const [ category, setCategory ] = useState("")
+    const [ category, setCategory ] = useState(savedData.category)
 
-
-
+    const [ formError, setFormError ] = useState(errorStatus)
 
 
 
@@ -89,15 +89,17 @@ const PublishFeedForm = ({ handler }) => {
 
     useEffect(() => { 
 
-       const _loadRecipeCategories = async () => { 
+        const _loadRecipeCategories = async () => { 
             
             const data = await exploreApi.getAllCategories() 
             setCategories(data)
         }
 
+        
         _loadRecipeCategories() 
+        errorHandler(recipeName, prepTime, cookTime, recipeDescription, recipeDirections, category)
 
-    }, [])
+    }, [formError, recipeName, recipeDescription, recipeDirections, category])
 
 
 
@@ -105,6 +107,7 @@ const PublishFeedForm = ({ handler }) => {
     //console.log('Cook Time', cookTime)
     //console.log('Prep Time', prepTime)
     //console.log('Category', category)
+    console.log('RecipeName', recipeName)
     return ( 
 
                 <Stack 
@@ -119,6 +122,7 @@ const PublishFeedForm = ({ handler }) => {
                     <RegularText
                         size="24px"
                         text="Publish a Recipe"/>
+
 
                     <form>
                         

@@ -1,6 +1,6 @@
 
 
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 import { Box, Stepper, Step, StepLabel, Button, stepClasses } from '@mui/material'
 
@@ -9,7 +9,7 @@ import { RegularText } from '../../../components/texts/GenericTexts'
 import PublishFeedForm from './PublishFeedForm'
 import AddIngredient from './AddIngredient'
 
-
+// steps to create recipe
 const publishStep = [
     'Create Recipe Info',
     'Add Ingredients',
@@ -21,74 +21,165 @@ const publishStep = [
 const PublishStepper = () => { 
 
 
-    const [ activeStep, setActiveStep ] = useState(0)
-    const [ skipped, setSkipped ] = useState(new Set())
+    const [ activeStep, setActiveStep ] = useState(1)
+    const [ formError, setFormError ] = useState({ 
+        message: '',
+        error: false
+    })
 
     const [ recipeData, setRecipeData ] = useState({})
 
 
-
-
-    const isStepOptional = ( step ) => { 
-        return step === 1
-    }
-
-    const isStepSkipped = ( step ) => { 
-        return skipped.has(step)
+    
+    const isStepFailed = ( step ) => { 
+        // if there's error, display it by fragment step parameter
+        if(formError.error){ 
+            return step === activeStep
+        }
     }
 
     const handleNext = () => { 
-
-        let newSkipped = skipped
-
-        if (isStepSkipped(activeStep)) { 
-
-            newSkipped = new Set(newSkipped.values())
-            newSkipped.delete(activeStep)
-
-        }
-
+        // move to next step in stepper fragment
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped(newSkipped)
     }
 
     const handleBack = () => { 
+        // move to previous step in stepper fragment
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
 
-    const handleSkip = () => { 
-        
-        if(!isStepOptional(activeStep)){ 
-            throw new Error('This page cannot be skipped')
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped((prevSkipped) => { 
-            const newSkipped = new Set(prevSkipped.values())
-            newSkipped.add(activeStep)
-            return newSkipped
-        })
-    }
-
     const handleReset = () => { 
+        // reset stepper fragment by moving back to the first
         setActiveStep(0)
     }
 
     const handleView = ( step ) => { 
-
+        /**
+         * @purpose Handle Stepper Fragment UI View by each step
+         * @param step: step to display fragment UI View
+         */
         if(step === 0){
-            return ( <PublishFeedForm/>)
+
+            return ( 
+                <PublishFeedForm 
+                    errorHandler={validateRecipeForm}
+                    errorStatus={formError.error}/>
+            
+            )
         }
 
-        else if (step === 1){ 
-            return ( <AddIngredient/>)
+        if (step === 1){ 
+            return ( 
+                <AddIngredient
+                    handler={handleIngredientsForm}/>
+                )
         }
     }
 
+    const handleSavedData = (recipeName, prepTime, cookTime, recipeDescription, recipeDirections, category) => { 
+        /**
+         * @purpose This function will be pass to PublishFeedForm component
+         *          as a handle to save the form data inside of the localstorage
+         *          and can be later retrieve to allow user to edit after moving to the next fragment stepper.
+         *          handleSavedData will be called within validateRecipeForm function
+         */
+        let data = { 
+            recipeName: recipeName,
+            prepTime: prepTime,
+            cookTime: cookTime,
+            recipeDescription: recipeDescription,
+            recipeDirections: recipeDirections, 
+            category: category,
+        }
+        localStorage.setItem('formData', JSON.stringify(data))
+    }
 
- 
 
-    console.log('ActivePage', activeStep)
+
+    const validateRecipeForm = ( recipeName, prepTime, cookTime, recipeDescription, recipeDirections, category ) => { 
+        /**
+         * @purpose This function will be pass to PublishFeedForm component
+         *          as a handle to save the form data inside of the localstorage
+         *          and can be later retrieve to allow user to edit after moving to the next fragment stepper.
+         * 
+         *          This function will also be responsible for displaying error message based on component validation.
+         */
+        console.log('Running Validator....')
+        if(recipeName.length === 0){ 
+            setFormError({ 
+                message: 'RecipeName required!', 
+                error:  true 
+            })
+            return 
+        }
+
+        if(recipeDescription.length === 0 || recipeDescription.length < 30){ 
+            setFormError({ 
+                message: 'Description required!',
+                error: true 
+            })
+            return 
+        }
+
+        if(recipeDirections.length === 0  || recipeDirections.length < 30){
+            setFormError({ 
+                message: 'Directions required!',
+                error: true 
+            })
+            return 
+        }
+
+        if(category.length === 0){ 
+            setFormError({ 
+                message: 'Category required!',
+                error: true 
+            })
+            return 
+        }
+
+        setFormError({ 
+            message: '',
+            error: false
+        })
+
+        handleSavedData(recipeName, prepTime, cookTime, recipeDescription, recipeDirections, category)
+        
+
+    }
+
+    const handleIngredientsForm = ( data ) => { 
+        /**
+         * @purpose This function will be pass to AddIngredient Component as a handle to add
+         *          the array datatype to the localstorage that can be retrieve and display when the user leaves the Ingredient 
+         *          Fragment Stepper,
+         *          It also validate whether the user has an ingredient added or not
+         */
+        if(data.length === 0){ 
+            setFormError({ 
+                message: 'Add Atleast one ingredient',
+                error: true 
+            })
+            return 
+        }
+
+        setFormError({ 
+            message: '',
+            error: false
+        })
+
+        localStorage.setItem('ingredients', JSON.stringify({data: data}))
+    }
+
+
+    useEffect(() => { 
+         /**
+          * User useEffect here to update the formError && formMessage within the stepper fragments
+          */
+        
+    }, [formError.error, formError.message])
+
+    //console.log('ActivePage', activeStep)
+    console.log('Error Status: ', formError.error)
 
     return ( 
 
@@ -100,25 +191,23 @@ const PublishStepper = () => {
 
                         {publishStep.map(( label, index ) => { 
 
-                            const stepProps = {} 
                             const labelProps = {} 
 
-                            if (isStepOptional(index)){ 
+                            if(isStepFailed(index)){ 
                                 labelProps.optional = ( 
                                     <RegularText
-                                        fontSize="12px"
+                                        size="14px"
                                         variant="caption"
-                                        text="Optional"/>
+                                        color="error"
+                                        text={formError.message}/>
                                 )
-                            }
 
-                            if (isStepSkipped(index)) { 
-                                stepProps.completed = false 
+                                labelProps.error = true 
                             }
 
                             return ( 
                                 <Step 
-                                    key={label} {...stepProps}>
+                                    key={label} >
                                     <StepLabel {...labelProps}>
                                         {label}
                                     </StepLabel>
@@ -188,25 +277,15 @@ const PublishStepper = () => {
                                     flex: '1 1 auto'
                                 }}/>
 
-                            {isStepOptional(activeStep) && ( 
                                 <Button 
                                     color="inherit"
-                                    onClick={handleSkip}
-                                    sx={{
-                                        mr: 1
-                                    }}>
-                                    Skip 
+                                    disabled={formError.error}
+                                    onClick={handleNext}>
+                                        {activeStep === publishStep.length - 1 ? 'Finish': 'Next'}
                                 </Button>
-                            )}
+                                    
 
-                            <Button 
-                                color="inherit"
-                                onClick={handleNext}>
-                                    {activeStep === publishStep.length - 1 ? 'Finish': 'Next'}
-                            </Button>
-                                
-
-                        </Box>
+                            </Box>
                     </Fragment>
 
                 )}

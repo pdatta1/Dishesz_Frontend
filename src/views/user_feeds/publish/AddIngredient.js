@@ -1,20 +1,22 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Chip, Grid, Stack, TextField } from '@mui/material'
 import { GenericButton } from '../../../components/buttons/Buttons'
 import { GenericPanel } from '../../../components/panels/GenericPanels'
-import { RegularContent, RegularText } from '../../../components/texts/GenericTexts'
+import { RegularText } from '../../../components/texts/GenericTexts'
 
 
 const AddIngredient = ({ handler }) => { 
+
+    const savedIngredients = JSON.parse(localStorage.getItem('ingredients'))
 
     const [ ingredientName, setIngredientName ] = useState("")
     const [ storeName, setStoreName ] = useState("")
     const [ storePrice, setStorePrice ] = useState("")
     const [ storeLink, setStoreLink ] = useState("")
 
-    const [ ingredients, setIngredients ] = useState([])
+    const [ ingredients, setIngredients ] = useState(savedIngredients.data)
 
 
     const handleIngredientName = ( event ) => { 
@@ -52,8 +54,12 @@ const AddIngredient = ({ handler }) => {
         setIngredients(prevState => prevState.filter((ingredient, i) => i !== index))
     }
 
-    const handleIngredientEdit = () => { 
+    const handleIngredientEdit = ( index ) => { 
 
+        setIngredientName(index.ingredient)
+        setStoreName(index.available_at[0].store_name)
+        setStorePrice(index.available_at[0].store_price)
+        setStoreLink(index.available_at[0].store_link)
     }
 
     const clearData = () => { 
@@ -63,7 +69,11 @@ const AddIngredient = ({ handler }) => {
         setStoreLink("")
     }
 
+    useEffect(() => { 
+        
+        handler(ingredients)
 
+    }, [ingredients, ingredients.length])
     console.log('Ingredients', ingredients)
 
         return ( 
@@ -178,8 +188,13 @@ const AddIngredient = ({ handler }) => {
                                                 <Chip
                                                     variant="outlined"
                                                     label={ing.ingredient}
-                                                    onDelete={handleIngredientDelete(index)}
-                                                    onClick={handleIngredientEdit}/>
+                                                    onDelete={() => { 
+                                                        handleIngredientDelete(index)
+                                                    }}
+                                                    onClick={() => { 
+                                                        handleIngredientEdit(ing)
+                                                        handleIngredientDelete(index)
+                                                    }}/>
                                             </Grid> 
 
                                         ))}

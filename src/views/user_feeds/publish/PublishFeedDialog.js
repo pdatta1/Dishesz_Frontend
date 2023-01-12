@@ -1,6 +1,6 @@
 
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 
 import { Dialog, DialogContent, AppBar, Toolbar } from '@mui/material'
@@ -19,6 +19,28 @@ import PublishStepper from './PublishStepper'
 
 const PublishFeedDialog = ({ status, authStatus, handler }) => { 
     
+
+    useEffect(() => { 
+       
+        const _loadRecipeFormDefaultData = () => { 
+            /**
+             * Load Default Data from localstorage to avoid error with the hooks array 
+            */
+            let formData = { 
+                recipeName: "",
+                prepTime: 5,
+                cookTime: 5,
+                recipeDescription: "",
+                recipeDirections: "", 
+                category: "",
+            }
+
+        
+            localStorage.setItem('formData', JSON.stringify(formData))
+            localStorage.setItem('ingredients', JSON.stringify({ data: []}))
+        }
+        _loadRecipeFormDefaultData()
+    }, [])
     return ( 
         <Dialog 
             fullScreen

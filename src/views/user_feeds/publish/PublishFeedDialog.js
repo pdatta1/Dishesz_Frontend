@@ -14,6 +14,7 @@ import { Transition } from '../../../utils/Transitions'
 import CloseIcon from '@mui/icons-material/Close'
 import { RegularText } from '../../../components/texts/GenericTexts'
 import PublishFeedForm from './PublishFeedForm'
+import PublishStepper from './PublishStepper'
 
 
 const PublishFeedDialog = ({ status, authStatus, handler }) => { 
@@ -70,7 +71,7 @@ const PublishFeedDialog = ({ status, authStatus, handler }) => {
 
                         >
 
-                            <PublishFeedForm/>
+                            <PublishStepper/>
                     </Stack>
 
                 </DialogContent>

@@ -2,15 +2,15 @@
 import React, { useState, useEffect } from 'react'
 
 
-import { Box, InputLabel, MenuItem, Select, Stack } from '@mui/material'
+import { Box, Chip, Grid, InputLabel, MenuItem, Select, Stack } from '@mui/material'
 import { FormControl, FormControlLabel, FormGroup } from '@mui/material'
 import { TextField, Slider } from '@mui/material'
 
-import { SmallPanel } from '../../../components/panels/GenericPanels'
 import { RegularText } from '../../../components/texts/GenericTexts'
 import ExploreFeedApi from '../../../session/ExploreFeedApi'
 import { GenericButton } from '../../../components/buttons/Buttons'
 
+import AddIngredient from './AddIngredient'
 
 const marks = [
     {
@@ -31,7 +31,11 @@ const marks = [
     },
   ]
 
-const PublishFeedForm = () => { 
+
+
+
+
+const PublishFeedForm = ({ handler }) => { 
 
     const exploreApi = new ExploreFeedApi() 
 
@@ -44,8 +48,8 @@ const PublishFeedForm = () => {
     const [ categories, setCategories ] = useState([])
     const [ category, setCategory ] = useState("")
 
-    const [ ingredients, setIngredients ] = useState([])
-    const [ photos, setPhotos ] = useState([])
+
+
 
 
 
@@ -53,6 +57,7 @@ const PublishFeedForm = () => {
         return `${time} Mins`
     }
 
+    /* Handlers */
     const handleCookTime = ( event ) => { 
         setCookTime(event.target.value)
     }
@@ -78,6 +83,10 @@ const PublishFeedForm = () => {
     }
 
 
+
+    /* End Handler */ 
+
+
     useEffect(() => { 
 
        const _loadRecipeCategories = async () => { 
@@ -95,15 +104,15 @@ const PublishFeedForm = () => {
 
     //console.log('Cook Time', cookTime)
     //console.log('Prep Time', prepTime)
-    console.log('Category', category)
+    //console.log('Category', category)
     return ( 
-       
+
                 <Stack 
                     direction="column"
                     spacing={2}
                     justifyContent="center"
                     alignItems="center"
-                    maxWidth="100%"
+                    width="100%"
                     >
 
 
@@ -138,7 +147,7 @@ const PublishFeedForm = () => {
                                 value={recipeDescription}
                                 onChange={handleRecipeDescription}
                                 sx={{
-                                    width: '100%'
+                                    width: '40rem'
                                 }}
                                 type="text"
 
@@ -236,30 +245,14 @@ const PublishFeedForm = () => {
 
                             </FormControl>
 
-
-                            <Stack 
-                                direction="row"
-                                spacing={5}
-                                justifyContent="center"
-                                alignItems="center">
-
-                                    <GenericButton
-                                        text="Add Ingredients"/>
-
-                                    <GenericButton
-                                        text="Add Photos"/>
-                            </Stack>
-
-
                            
                         </Stack>
 
                     </form>
-
-
-                       
+    
                 </Stack>
 
+               
     )
 }
 

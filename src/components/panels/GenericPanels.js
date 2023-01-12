@@ -14,6 +14,38 @@ import { Paper, Grow, Stack } from '@mui/material'
 import { RegularText } from '../texts/GenericTexts'
 
 
+const GenericPanel = ({ children, shadow, mdWidth, mdHeight }) => { 
+    /**
+     * 
+     * @purpose 
+     *      Generic works as a generic smaller size to be used thru out the webapp
+     * 
+     * @param children displays the nested components that follows
+     * @param shadow the amount of boxshadow to be render
+     */
+    return ( 
+        <Grow 
+        in={true}
+        style={{ transformOrigin: '0 0 0'}}
+        {...(true ? { timeout: 1000} : {} )}>
+            <Paper 
+                elevation={shadow}
+                sx={{
+                    height: { sm: '100%', md: mdHeight}, 
+                    width: {xs: '100%', sm: '100%', md: mdWidth},
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    marginBottom: 1
+                }}>
+
+                    {children}
+
+            </Paper>
+        </Grow>
+    )
+}
+
+
 const FeedPanel = ({ children, shadow }) => { 
 
     /**
@@ -237,6 +269,7 @@ const AuthForm = ({ children }) => {
 
 
 export { 
+    GenericPanel,
     FeedPanel,
     SmallPanel, 
     ReviewPanel,

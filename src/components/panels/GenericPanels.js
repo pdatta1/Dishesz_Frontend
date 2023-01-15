@@ -35,10 +35,18 @@ const GenericPanel = ({ children, shadow, mdWidth, mdHeight }) => {
                     width: {xs: '100%', sm: '100%', md: mdWidth},
                     justifyContent: 'center', 
                     alignItems: 'center', 
-                    marginBottom: 1
+                    marginBottom: 1,
+                    overflow: 'auto'
                 }}>
 
-                    {children}
+                    <Stack
+                        direction="column"
+                        spacing={1}
+                        justifyContent="center"
+                        alignItems="center"
+                        display="flex">
+                            {children}
+                    </Stack>
 
             </Paper>
         </Grow>

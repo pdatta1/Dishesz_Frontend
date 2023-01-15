@@ -2,16 +2,17 @@
 import React, { useState, useEffect } from 'react'
 
 
-import { Box, Chip, Grid, InputLabel, MenuItem, Select, Stack } from '@mui/material'
-import { FormControl, FormControlLabel, FormGroup } from '@mui/material'
+import { InputLabel, MenuItem, Select, Stack } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { TextField, Slider } from '@mui/material'
 
 import { RegularText } from '../../../components/texts/GenericTexts'
 import ExploreFeedApi from '../../../session/ExploreFeedApi'
-import { GenericButton } from '../../../components/buttons/Buttons'
 
-import AddIngredient from './AddIngredient'
+import { GenericPanel } from '../../../components/panels/GenericPanels'
 
+
+// marks to be display  on cooktime and preptime
 const marks = [
     {
       value: 30,
@@ -29,16 +30,31 @@ const marks = [
       value: 120,
       label: '20 Mins',
     },
-  ]
+]
 
 
 
 
 
-const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => { 
+const PublishFeedForm = ({ errorHandler, errorStatus }) => { 
+
+    /**
+     * @purpose  PublishFeedForm is responsible for collecting input data from 
+     *           user inorder to create the basic recipe data.
+     *           PublishFeedForm is the first step to publishing a recipe
+     * 
+     * @param errorHandler: handle the error that's detected
+     * @param errorStatus: display the error within the component due to user inputs
+     * 
+     */
+
+
+    // core 
 
     const exploreApi = new ExploreFeedApi() 
     const savedData = JSON.parse(localStorage.getItem('formData'))
+
+    // hooks 
 
     const [ cookTime, setCookTime ] = useState(savedData.cookTime)
     const [ prepTime, setPrepTime ] = useState(savedData.prepTime)
@@ -52,12 +68,12 @@ const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => {
     const [ formError, setFormError ] = useState(errorStatus)
 
 
+    // handlers
 
     const getCookTime = ( time ) => { 
         return `${time} Mins`
     }
 
-    /* Handlers */
     const handleCookTime = ( event ) => { 
         setCookTime(event.target.value)
     }
@@ -84,14 +100,29 @@ const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => {
 
 
 
-    /* End Handler */ 
-
-
     useEffect(() => { 
 
         const _loadRecipeCategories = async () => { 
             
+            /**
+             * @purpose Loads the categories of all recipes with in backend into the categories hook
+             *          first, check whether the categories data are stored within the localStorage,
+             *          if so, set those data within the categories hook, 
+             *          if not, fetch the categories data and add to the localstorage
+             * 
+             */
+            
+            const storedCategories = JSON.parse(localStorage.getItem('categories'))
+
+            if ( storedCategories ){ 
+                console.log('Reading A')
+                setCategories(storedCategories)
+                return 
+            }
+            console.log('Reading B')
+
             const data = await exploreApi.getAllCategories() 
+            localStorage.setItem('categories', JSON.stringify(data))
             setCategories(data)
         }
 
@@ -107,8 +138,12 @@ const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => {
     //console.log('Cook Time', cookTime)
     //console.log('Prep Time', prepTime)
     //console.log('Category', category)
-    console.log('RecipeName', recipeName)
+    //console.log('RecipeName', recipeName)
     return ( 
+            <GenericPanel
+                shadow={0}
+                mdWidth="100%"
+                mdHeight={"75vh"}>
 
                 <Stack 
                     direction="column"
@@ -116,6 +151,8 @@ const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="100%"
+                    mt={5}
+                    mb={10}
                     >
 
 
@@ -255,6 +292,7 @@ const PublishFeedForm = ({ handler, errorHandler, errorStatus }) => {
                     </form>
     
                 </Stack>
+            </GenericPanel>
 
                
     )

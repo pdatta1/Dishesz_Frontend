@@ -12,10 +12,21 @@ import PublishFeedDialog from './PublishFeedDialog'
 
 const PublishFeed = ({ authStatus }) => { 
 
+    /**
+     * PublishFeed is responsible for display the dialog allow a user to navigate the process of 
+     * publishing a feed on dishesz
+     * 
+     */
+
+
+    // hooks 
 
     const [ publishDialogStatus, setPublishDialogStatus ] = useState(false)
     
 
+
+    // handlers 
+    
     const handlePublishDialog = () => { 
         setPublishDialogStatus(!publishDialogStatus)
     }

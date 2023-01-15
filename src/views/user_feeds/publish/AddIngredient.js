@@ -9,8 +9,26 @@ import { RegularText } from '../../../components/texts/GenericTexts'
 
 const AddIngredient = ({ handler }) => { 
 
+    /***
+     * 
+     * Add Ingredient Component is the second step to publish a recipe on dishesz
+     * It's consists of a 2 side panel within a row state that consists of left and right
+     * The left panel consists of the forms needed to add an ingredient, 
+     * The right panel consists of the displays of each ingredients and allows user to edit or delete such ingredients
+     * 
+     * There are several hooks and handlers which server the form, the array of ingredients, etc.
+     * The array of ingredients hook named ingredients are stored in a local storage that was been retrieved when the user leaves the 
+     * addIngredient component and decides to come back to it.
+     * 
+     */
+
+
+
+    // savedIngredients to get the ingredients array from localStorage
     const savedIngredients = JSON.parse(localStorage.getItem('ingredients'))
 
+
+    // hooks 
     const [ ingredientName, setIngredientName ] = useState("")
     const [ storeName, setStoreName ] = useState("")
     const [ storePrice, setStorePrice ] = useState("")
@@ -19,6 +37,7 @@ const AddIngredient = ({ handler }) => {
     const [ ingredients, setIngredients ] = useState(savedIngredients.data)
 
 
+    // handlers 
     const handleIngredientName = ( event ) => { 
         setIngredientName(event.target.value)
     }
@@ -35,7 +54,42 @@ const AddIngredient = ({ handler }) => {
         setStoreLink(event.target.value)
     }
 
+    const handleIngredientDelete = ( index ) => { 
+        setIngredients(prevState => prevState.filter((ingredient, i) => i !== index))
+    }
+
+    const handleIngredientEdit = ( index ) => { 
+        /**
+         * @purpose Edit an ingredient element with the ingredient array when clicked on
+         * @param index: the index of the ingredient within the ingredients array
+         */
+
+        setIngredientName(index.ingredient)
+        setStoreName(index.available_at[0].store_name)
+        setStorePrice(index.available_at[0].store_price)
+        setStoreLink(index.available_at[0].store_link)
+    }
+
+    const clearData = () => { 
+        /**
+         * @purpose Clear all form data
+         */
+        setIngredientName("")
+        setStoreName("")
+        setStorePrice("")
+        setStoreLink("")
+    }
+
+
     const addIngredient = ( ingredient, storeName, storePrice, storeLink ) => { 
+
+        /**
+         * @purpose Add Ingredient to the ingredients Array
+         * @param ingredient: IngredientName
+         * @param storeName: name of the store
+         * @param storePrice: the price of the ingredient added
+         * @param storeLink: link to find the ingredient
+         */
 
         let ingredientData = { 
             "ingredient": ingredient,
@@ -50,30 +104,14 @@ const AddIngredient = ({ handler }) => {
 
     } 
 
-    const handleIngredientDelete = ( index ) => { 
-        setIngredients(prevState => prevState.filter((ingredient, i) => i !== index))
-    }
 
-    const handleIngredientEdit = ( index ) => { 
-
-        setIngredientName(index.ingredient)
-        setStoreName(index.available_at[0].store_name)
-        setStorePrice(index.available_at[0].store_price)
-        setStoreLink(index.available_at[0].store_link)
-    }
-
-    const clearData = () => { 
-        setIngredientName("")
-        setStoreName("")
-        setStorePrice("")
-        setStoreLink("")
-    }
 
     useEffect(() => { 
         
         handler(ingredients)
 
     }, [ingredients, ingredients.length])
+    
     console.log('Ingredients', ingredients)
 
         return ( 
@@ -83,7 +121,8 @@ const AddIngredient = ({ handler }) => {
                 spacing={1}
                 justifyContent="center"
                 alignItems="center"
-                width="100%">
+                width="100%"
+                height="75vh">
             
                 <Stack 
                     direction="column"

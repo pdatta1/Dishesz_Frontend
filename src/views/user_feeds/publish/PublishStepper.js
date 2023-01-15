@@ -2,12 +2,14 @@
 
 import React, { Fragment, useEffect, useState } from 'react'
 
-import { Box, Stepper, Step, StepLabel, Button, stepClasses } from '@mui/material'
+import { Box, Stepper, Step, StepLabel, Button } from '@mui/material'
 
 import { GenericButton } from '../../../components/buttons/Buttons'
 import { RegularText } from '../../../components/texts/GenericTexts'
 import PublishFeedForm from './PublishFeedForm'
 import AddIngredient from './AddIngredient'
+import PublishFeedPhotos from './publishFeedPhotos'
+import PublishReview from './PublishReview'
 
 // steps to create recipe
 const publishStep = [
@@ -20,8 +22,15 @@ const publishStep = [
 
 const PublishStepper = () => { 
 
+    /***
+     * PublishStepper is responsible for the steps required to publish a recipe
+     * 
+     */
 
-    const [ activeStep, setActiveStep ] = useState(1)
+
+    // hooks 
+
+    const [ activeStep, setActiveStep ] = useState(3)
     const [ formError, setFormError ] = useState({ 
         message: '',
         error: false
@@ -30,7 +39,8 @@ const PublishStepper = () => {
     const [ recipeData, setRecipeData ] = useState({})
 
 
-    
+    // handlers 
+
     const isStepFailed = ( step ) => { 
         // if there's error, display it by fragment step parameter
         if(formError.error){ 
@@ -64,7 +74,6 @@ const PublishStepper = () => {
                 <PublishFeedForm 
                     errorHandler={validateRecipeForm}
                     errorStatus={formError.error}/>
-            
             )
         }
 
@@ -73,6 +82,20 @@ const PublishStepper = () => {
                 <AddIngredient
                     handler={handleIngredientsForm}/>
                 )
+        }
+
+        if (step === 2){ 
+            return ( 
+                <PublishFeedPhotos
+                    errorHandler={handlePhotoForm}
+                    errorStatus={formError.error}/>
+            )
+        }
+
+        if (step === 3){ 
+            return ( 
+                <PublishReview/>
+            )
         }
     }
 
@@ -115,7 +138,7 @@ const PublishStepper = () => {
 
         if(recipeDescription.length === 0 || recipeDescription.length < 30){ 
             setFormError({ 
-                message: 'Description required!',
+                message: `Description required! \n ${recipeDescription.length} of 30 characters`,
                 error: true 
             })
             return 
@@ -123,7 +146,7 @@ const PublishStepper = () => {
 
         if(recipeDirections.length === 0  || recipeDirections.length < 30){
             setFormError({ 
-                message: 'Directions required!',
+                message: `Directions required! \n ${recipeDirections.length} of 30 characters`,
                 error: true 
             })
             return 
@@ -168,6 +191,22 @@ const PublishStepper = () => {
         })
 
         localStorage.setItem('ingredients', JSON.stringify({data: data}))
+    }
+
+    const handlePhotoForm = ( data ) => { 
+        
+        if ( data.length == 0){ 
+            setFormError({ 
+                message: 'Add Atleast one Photo',
+                error: true 
+            })
+            return 
+        }
+
+        setFormError({ 
+            message: '',
+            error: false 
+        })
     }
 
 
@@ -249,9 +288,6 @@ const PublishStepper = () => {
 
                     <Fragment>
 
-                        <RegularText
-                            font="14px"
-                            text={`Step ${activeStep + 1}`}/>
 
                         {handleView(activeStep)}
 
@@ -285,7 +321,7 @@ const PublishStepper = () => {
                                 </Button>
                                     
 
-                            </Box>
+                        </Box>
                     </Fragment>
 
                 )}

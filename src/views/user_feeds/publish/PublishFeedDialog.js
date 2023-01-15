@@ -39,8 +39,11 @@ const PublishFeedDialog = ({ status, authStatus, handler }) => {
             localStorage.setItem('formData', JSON.stringify(formData))
             localStorage.setItem('ingredients', JSON.stringify({ data: []}))
         }
+
         _loadRecipeFormDefaultData()
     }, [])
+
+    
     return ( 
         <Dialog 
             fullScreen

@@ -10,13 +10,14 @@ import PublishFeedForm from './PublishFeedForm'
 import AddIngredient from './AddIngredient'
 import PublishFeedPhotos from './publishFeedPhotos'
 import PublishReview from './PublishReview'
+import { Stack } from '@mui/system'
 
 // steps to create recipe
 const publishStep = [
     'Create Recipe Info',
     'Add Ingredients',
     'Add Photos',
-    'Publish'
+    'Review'
 ]
 
 
@@ -30,7 +31,7 @@ const PublishStepper = () => {
 
     // hooks 
 
-    const [ activeStep, setActiveStep ] = useState(3)
+    const [ activeStep, setActiveStep ] = useState(0)
     const [ formError, setFormError ] = useState({ 
         message: '',
         error: false
@@ -210,15 +211,39 @@ const PublishStepper = () => {
     }
 
 
+    const configureRecipeData = () => { 
+
+        let formData = JSON.parse(localStorage.getItem('formData'))
+        let ingredients = JSON.parse(localStorage.getItem('ingredients'))
+        
+        let configuredData = { 
+            recipe_name: formData.recipeName,
+            recipe_description: formData.recipeDescription,
+            prep_time: formData.prepTime, 
+            cook_time: formData.cookTime,
+            directions: formData.recipeDirections,
+            category: formData.category,
+            ingredients: ingredients.data,
+        }
+
+        setRecipeData(configureRecipeData)
+    }
+
+    const publishRecipe = async () => { 
+        
+    }
+
+
     useEffect(() => { 
          /**
           * User useEffect here to update the formError && formMessage within the stepper fragments
-          */
+         */
         
     }, [formError.error, formError.message])
 
     //console.log('ActivePage', activeStep)
     console.log('Error Status: ', formError.error)
+
 
     return ( 
 
@@ -261,26 +286,37 @@ const PublishStepper = () => {
 
                     <Fragment>
 
-                        <RegularText
-                            font="18px"
-                            text="Review your Recipe and Publish"/>
+                        <Stack 
+                            direction="column"
+                            spacing={2}
+                            justifyContent="center"
+                            alignItems="center"
+                            display="flex"
+                            maxWidth="100%"
+                            height="75vh">
 
-                        <Box 
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                pt: 2
-                            }}>
-                            <Box 
-                                sx={{
-                                    flex: '1 1 auto'
-                                }}/>
-                            <GenericButton
-                                variant="contained"
-                                text="Edit"
-                                onPress={handleReset}/>
+                                <Stack 
+                                    direction="column"
+                                    spacing={1}
+                                    justifyContent="center"
+                                    alignItems="center">
 
-                        </Box>
+                                    <RegularText
+                                        size="18px"
+                                        text="Ready to Publish"/>
+
+                                    <GenericButton
+                                        variant="contained"
+                                        text="Edit"
+                                        onPress={handleReset}/>
+
+                                    <GenericButton
+                                        variant="contained"
+                                        text="Publish Recipe"
+                                    />
+
+                                </Stack>
+                        </Stack>
 
                     </Fragment>
 

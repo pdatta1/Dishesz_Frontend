@@ -8,7 +8,7 @@ import { IngredientLinkButton } from '../buttons/Buttons'
 import AvailableAt from './AvailableAt'
 
 
-const Ingredients = ({ data }) => { 
+const Ingredients = ({ data, shadow }) => { 
 
     const [ availableAtStatus, setAvailableAtStatus ] = useState(false)
     const [ currentIngredient, setCurrentIngredient ] = useState([])
@@ -19,7 +19,7 @@ const Ingredients = ({ data }) => {
 
     return ( 
         <SmallPanel
-            shadow={5}>
+            shadow={shadow}>
 
             <Stack 
                 mt={5}
@@ -43,6 +43,7 @@ const Ingredients = ({ data }) => {
                     rowGap={5}
                     sx={{
                         flexWrap: 'wrap',
+                        maxWidth: '40vh'
                     }}
                     >
 

@@ -104,6 +104,19 @@ const AddIngredient = ({ handler }) => {
 
     } 
 
+    const testPopulateIngredients = () => { 
+        let ingredientData = { 
+            "ingredient": "Black Pepper",
+            "available_at": [{ 
+                "store_name": "Walmart", 
+                "store_price": 18.99, 
+                "store_link": "TestLink"
+            }]
+        }
+        setIngredients((ing) => [...ing, ingredientData])
+
+    }
+
 
 
     useEffect(() => { 
@@ -123,6 +136,8 @@ const AddIngredient = ({ handler }) => {
                 alignItems="center"
                 width="100%"
                 height="75vh">
+
+                   
             
                 <Stack 
                     direction="column"
@@ -130,6 +145,11 @@ const AddIngredient = ({ handler }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="60vh">
+
+                        <GenericButton
+                            variant="contained"
+                            text="Populate"
+                            onPress={testPopulateIngredients}/>
 
                         <TextField
                             variant="outlined"

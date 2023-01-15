@@ -85,6 +85,7 @@ const PublishFeedPhotos = ({ errorStatus, errorHandler }) =>  {
         return photoURL
     }
 
+
     useEffect(() => { 
 
         errorHandler(photos)

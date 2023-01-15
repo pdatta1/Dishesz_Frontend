@@ -64,7 +64,8 @@ const RecipeDetails = ({ status, handler, data, authStatus, refresh }) => {
                                 data={data}/>
 
                             <Ingredients
-                                data={data.ingredients}/>
+                                data={data.ingredients}
+                                shadow={5}/>
 
                             <ReviewSection
                                 authStatus={authStatus}

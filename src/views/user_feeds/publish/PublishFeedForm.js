@@ -10,6 +10,7 @@ import { RegularText } from '../../../components/texts/GenericTexts'
 import ExploreFeedApi from '../../../session/ExploreFeedApi'
 
 import { GenericPanel } from '../../../components/panels/GenericPanels'
+import { GenericButton } from '../../../components/buttons/Buttons'
 
 
 // marks to be display  on cooktime and preptime
@@ -98,6 +99,16 @@ const PublishFeedForm = ({ errorHandler, errorStatus }) => {
         setCategory(event.target.value)
     }
 
+    const testPopulateForm = () => { 
+        setRecipeName('Black Pepper Soup')
+        setRecipeDescription('Good Black Pepper soup cook with onions and chicken thighs')
+        setRecipeDirections("You will need to slow cook the chicken thighs and boil the soup with hot peppers")
+        setCookTime(20)
+        setPrepTime(15)
+        setCategory(categories[0])
+
+    }
+
 
 
     useEffect(() => { 
@@ -159,6 +170,11 @@ const PublishFeedForm = ({ errorHandler, errorStatus }) => {
                     <RegularText
                         size="24px"
                         text="Publish a Recipe"/>
+
+                    <GenericButton
+                        variant="contained"
+                        text="Populate"
+                        onPress={testPopulateForm}/>
 
 
                     <form>

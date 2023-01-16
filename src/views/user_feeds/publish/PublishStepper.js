@@ -11,6 +11,7 @@ import AddIngredient from './AddIngredient'
 import PublishFeedPhotos from './publishFeedPhotos'
 import PublishReview from './PublishReview'
 import { Stack } from '@mui/system'
+import UserFeedAPI from '../../../session/UserFeedApi'
 
 // steps to create recipe
 const publishStep = [
@@ -27,6 +28,9 @@ const PublishStepper = () => {
      * PublishStepper is responsible for the steps required to publish a recipe
      * 
      */
+
+    // core 
+    const userFeed = new UserFeedAPI() 
 
 
     // hooks 
@@ -208,6 +212,13 @@ const PublishStepper = () => {
             message: '',
             error: false 
         })
+        let formData = new FormData() 
+
+        for ( const [key, value] of Object.entries(data)){ 
+            formData.append('src', value)
+        }
+
+        localStorage.setItem('storedPhotoValue', formData)
     }
 
 
@@ -231,6 +242,7 @@ const PublishStepper = () => {
 
     const publishRecipe = async () => { 
         
+        const createdData = await userFeed.publishRecipe(recipeData)
     }
 
 

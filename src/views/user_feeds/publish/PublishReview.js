@@ -69,7 +69,8 @@ const PublishReview = () => {
             let username = localStorage.getItem('username')
             let created_on = getCurrentDate()
 
-
+            let testPhotos = JSON.parse(localStorage.getItem('storedPhotoValue'))
+            console.log('StoredPhotoValue', testPhotos)
 
             let recipePreviewData = { 
 
